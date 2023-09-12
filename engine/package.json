@@ -1,0 +1,14 @@
+{
+  "name": "engine",
+  "version": "1.0.0",
+  "description": "An ecommerce graphql server",
+  "main": "index.ts",
+  "author": "Caleb Okyere",
+  "license": "MIT",
+  "scripts": {
+    "start":"node index.ts",
+    "dev":"nodemon index.ts"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
