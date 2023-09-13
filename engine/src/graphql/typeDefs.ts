@@ -1,4 +1,6 @@
-const typeDefs = `
+import { gql } from 'graphql-tag';
+
+const typeDefs = gql`
   type Product {
     id: String!
     name: String!
@@ -23,9 +25,9 @@ const typeDefs = `
   }
 
   type Query {
-    getProduct: Product
-    getProducts: [Product]!
-    getOrders: [Order]!
+    product(id: String!): Product
+    products: [Product]!
+    orders: [Order]!
   }
   type Mutation {
     createOrder(input: CreateOrderInput!): [Order]
