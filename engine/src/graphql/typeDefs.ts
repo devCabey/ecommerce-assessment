@@ -9,16 +9,25 @@ const typeDefs = gql`
     description: String
   }
 
-  type Order {
+  type OrderItem {
     product: Product
     quantity: Int
   }
 
-  input CreateOrderInput {
+  type Order {
+    cart: [OrderItem]!
+    amount: Float
+  }
+
+  input OrderItemInput {
     productId: String
     quantity: Int
   }
 
+  input CreateOrderInput {
+    cart: [OrderItemInput]!
+    amout: Float
+  }
 
   input UpdateOrderInput {
     productId: String
@@ -27,12 +36,12 @@ const typeDefs = gql`
 
   type Query {
     product(id: String!): Product
-    products(filter: String, search: String): [Product]!
+    products(filter: String): [Product]!
     orders: [Order]!
   }
   type Mutation {
-    createOrder(input: CreateOrderInput!): [Order]
-    updateOrder(input: UpdateOrderInput!): [Order]
+    createOrder(input: CreateOrderInput!): Order
+    updateOrder(input: UpdateOrderInput!): Order
   }
 `;
 
