@@ -33,7 +33,7 @@ export const productData = [
 
 export async function getProduct(id: string): Promise<Product> {
   try {
-    const product = await productData.find((prod) => prod.id == id);
+    const product = productData.find((prod) => prod.id == id);
     if (!product) throw new Error('Product not found');
     return product;
   } catch (err) {
@@ -41,9 +41,11 @@ export async function getProduct(id: string): Promise<Product> {
   }
 }
 
-export async function getProducts(): Promise<Product[]> {
+export async function getProducts(filter: string): Promise<Product[]> {
   try {
-    const products = productData;
+    const products = productData.filter((prod) =>
+      prod.name.includes(filter || '')
+    );
     return products;
   } catch (err) {
     throw err;

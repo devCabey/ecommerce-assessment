@@ -19,6 +19,7 @@ const typeDefs = gql`
     quantity: Int
   }
 
+
   input UpdateOrderInput {
     productId: String
     quantity: Int
@@ -26,7 +27,7 @@ const typeDefs = gql`
 
   type Query {
     product(id: String!): Product
-    products: [Product]!
+    products(filter: String, search: String): [Product]!
     orders: [Order]!
   }
   type Mutation {
