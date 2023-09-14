@@ -58,7 +58,7 @@ const orderData = [
 export async function createOrder(input: OrderInput): Promise<Order[]> {
   try {
     const { orderId, cart, amount } = input;
-    await orderData.push({ id: orderId, cart, amount });
+    await orderData.push({ id: orderId, ...input });
     return orderData;
   } catch (err) {
     throw err;
