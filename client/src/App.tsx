@@ -6,6 +6,7 @@ import ProductView  from './pages/productView';
 import CheckoutView from './pages/checkoutView';
 import productLoader from './api/product';
 import CartView from './pages/cartView';
+import Navbar from './components/navBar';
 
 
 
@@ -33,7 +34,10 @@ function App() {
 		},
   ])
   return (
-    <RouterProvider router={router}/>
+		<Navbar>
+  		<RouterProvider router={router}/>
+		</Navbar>
+  
   );
 }
 

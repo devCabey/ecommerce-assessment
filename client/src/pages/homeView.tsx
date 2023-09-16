@@ -6,7 +6,7 @@ interface HomeViewProps {
 
 const HomeView: React.FC<HomeViewProps>=() =>{
   return (
-    <div>
+    <div className=''>
       Home View
     </div>
   )

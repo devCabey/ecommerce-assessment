@@ -1,6 +1,10 @@
 import React from 'react'
 
-function ProductComponent() {
+interface ProductComponentProps {
+  
+}
+
+const ProductComponent: React.FC<ProductComponentProps>=() =>{
   return (
     <div>
       Product Components
