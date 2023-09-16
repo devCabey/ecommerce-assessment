@@ -15,9 +15,9 @@ const ProductItem: React.FC<ProductItemProps>=() =>{
           <h3>IPhone 13 pro</h3>
           <h3>$700</h3>
         </div>
-        <p className='text-xs my-2 font-normal'>Iphone 13 pro, 256gig, Green</p>
+        <p className='text-xs my-3 font-normal text-gray-600'>Iphone 13 pro, 256gig, Green</p>
         <div className='flex justify-end items-center'>
-          <span className='px-2 py-2 text-xs border border-green-500 rounded-full text-green-500 cursor-pointer hover:bg-green-500 hover:text-white'>Add to Cart</span>
+          <span className='px-3 py-2 text-xs border border-green-500 rounded-full text-green-500 cursor-pointer hover:bg-green-500 hover:text-white'>Add to Cart</span>
         </div>
       </div>
     </div>

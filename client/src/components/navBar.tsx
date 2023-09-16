@@ -18,8 +18,8 @@ const Navbar: React.FC<NavbarProps>=() =>{
         <input type="text" placeholder='Search Product' className='flex items-center flex-1 h-full border-none outline-none px-3 rounded-full text-sm' />
         <BiSearchAlt size={19} color='gray'/>
       </div>
-      <div className='flex items-center gap-1 cursor-pointer font-medium text-gray-900 '>
-        <BsCartCheck size={15} />
+      <div className='flex items-center gap-2 cursor-pointer font-medium text-gray-900 '>
+        <BsCartCheck size={20} />
         <span className='text-sm font-sans'>Cart</span>
       </div>
     </div>
