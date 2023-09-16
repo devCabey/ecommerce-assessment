@@ -9,7 +9,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps>=() =>{
   return (
-    <div className='w-full h-14 bg-white flex justify-between items-center px-20 gap-5'>
+    <div className='w-full h-14 bg-white flex justify-between items-center px-20 gap-5 sticky top-0 z-50'>
       <img src='https://static.vecteezy.com/system/resources/thumbnails/003/092/544/small/e-commerce-logo-with-pointer-and-shopping-bag-free-vector.jpg'
           alt='logo' 
           className='h-14 cursor-pointer'
