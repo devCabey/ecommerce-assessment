@@ -6,7 +6,7 @@ interface ProductItemProps {
 
 const ProductItem: React.FC<ProductItemProps>=() =>{
   return (
-    <div className='w-60'>
+    <div className='w-60 m-5'>
       <div className=' shadow shadow-gray-300 flex justify-center bg-slate-100 rounded-lg w-full h-60 '>
         <img src='https://pngimg.com/uploads/iphone_13/iphone_13_PNG27.png' className='h-48 w-40' alt='product'/>
       </div>
