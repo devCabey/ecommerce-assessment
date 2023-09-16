@@ -14,10 +14,10 @@ const Navbar: React.FC<NavbarProps>=() =>{
           alt='logo' 
           className='h-14 cursor-pointer'
       />
-      <div className='w-96 h-10 shadow-sm border border-gray-100 rounded-full flex items-center justify-between px-2'>
+      <a href='/products'  className='w-96 h-10 shadow-sm border border-gray-100 rounded-full flex items-center justify-between px-2'>
         <input type="text" placeholder='Search Product' className='flex items-center flex-1 h-full border-none outline-none px-3 rounded-full text-sm' />
         <BiSearchAlt size={19} color='gray'/>
-      </div>
+      </a >
       <div className='flex items-center gap-2 cursor-pointer font-medium text-gray-900 '>
         <BsCartCheck size={20} />
         <span className='text-sm font-sans'>Cart</span>
