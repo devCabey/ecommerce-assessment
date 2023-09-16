@@ -36,6 +36,7 @@ function App() {
   return (
 		<Layout>
   		<RouterProvider router={router}/>
+			<div className='flex justify-center items-center'>&copy; 2023 </div>
 		</Layout>
   
   );
