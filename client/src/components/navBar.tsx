@@ -22,9 +22,10 @@ const Navbar: React.FC<NavbarProps>=() =>{
         <input type="text" placeholder='Search Product' className='flex items-center flex-1 h-full border-none outline-none px-3 rounded-full text-sm' />
         <BiSearchAlt size={19} color='gray'/>
       </div >
-      <div className='flex items-center gap-2 cursor-pointer font-medium text-gray-900 ' onClick={()=>setOpenCart(true)}>
+      <div className=' relative flex items-center gap-2 cursor-pointer font-medium text-gray-900 ' onClick={()=>setOpenCart(true)}>
         <BsCartCheck size={20} />
         <span className='text-sm font-sans'>Cart</span>
+        <span className='border-2 rounded-full h-5 w-5 text-xs border-green-700 text-green-700 flex justify-center items-center absolute -top-2 -right-6 font-bold'> 18 </span>
       </div>
       <div className={`absolute  top-16 ${ openCart? "right-0":"-right-96"} w-96 h-[850px] border  bg-white shadow-md  transition-all ease-in-out p-5 overflow-hidden`}>
         <div className='absolute top-5 left-5 border cursor-pointer' onClick={()=>setOpenCart(false)}>
