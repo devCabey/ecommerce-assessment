@@ -7,7 +7,7 @@ interface OrderItemProps {
 
 const OrderItem: React.FC<OrderItemProps>=() =>{
   return (
-    <div className="w-96 h-24 border border-gray-300 my-5 flex items-center relative rounded-md">
+    <div className="w-80 h-24 border border-gray-300 my-5 flex items-center relative rounded-md">
       <div className="absolute top-3 right-3 cursor-pointer"><MdOutlineClose size={18}/></div>
       <img src="https://pngimg.com/uploads/iphone_13/iphone_13_PNG27.png" alt="product" className="w-20 h-20" />
       <div className="flex-1 px-5 flex flex-col ">

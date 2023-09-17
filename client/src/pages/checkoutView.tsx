@@ -47,7 +47,7 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
      </div>
      <div className=' relative w-1/2  px-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Order Details</h3>
-      <div className='w-full h-[700px] border-2  border-black overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
+      <div className='w-5/6 h-[650px] border-2  border-black overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
         <div>
           <OrderItem/>
           <OrderItem/>
