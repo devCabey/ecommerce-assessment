@@ -2,6 +2,7 @@ import React from 'react'
 import PaymentItem from '../components/paymentItem'
 import {FaAmazonPay,FaCcPaypal,FaCcVisa,FaCcMastercard} from 'react-icons/fa'
 import InputItem from '../components/inputItem'
+import OrderItem from '../components/orderItem'
 interface CheckoutViewProps {
   
 }
@@ -37,18 +38,34 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
             <InputItem type='text' placeholder='Please Enter Your Phone' name='Telephone' moreStyle=''/>
             <InputItem type='text' placeholder='Please Enter Your Email' name='Email' moreStyle=''/>
           </div>
+          <InputItem type='text' placeholder='Please Enter Your Address' name='Address'/>
         </div>
         <div className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '>
           <span className='text-sm font-bold text-[#d1ba49] '>Checkout</span>
         </div>
       </div>
      </div>
-     <div className=' relative w-1/2  p-10'>
+     <div className=' relative w-1/2  px-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Order Details</h3>
-      <div className='w-full h-[700px] border overflow-scroll overflow-y-scroll flex justify-center items-start'>
-        <div className='h-[900px] w-20 bg-red-400'>
-
+      <div className='w-full h-[700px] border overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
+        <div>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
+          <OrderItem/>
         </div>
+      </div>
+      <div className='flex justify-between my-10 px-3'>
+        <h3 className='text-lg font-bold font-serif'>Total </h3>
+        <h3 className='text-lg font-medium font-mono'>$3000</h3>
       </div>
      </div>
     </div>
