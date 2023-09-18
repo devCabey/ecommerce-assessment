@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
-import {FiChevronLeft} from 'react-icons/fi'
+import { Link } from 'react-router-dom';
 type ProductLoader = (params: { id: string }) => Promise<any>;
 
 interface ProductViewProps {
@@ -13,7 +13,7 @@ const ProductView: React.FC<ProductViewProps> = ({ loader }) => {
   return (
   <>
     <div className='flex items-center justify-start m-5'>
-      <span className='flex items-center justify-start text-sm cursor-pointer m-5'> <FiChevronLeft size={15}/> Back To Products</span>
+      <Link to="/products" className='flex items-center justify-start text-xs cursor-pointer m-5 font-bold'>  {"<< Back To Products"}</Link>
     </div>
     <div className='w-full flex justify-between p-20 gap-10 '>
       <div className='w-1/2 flex justify-center items-center bg-gray-50'>

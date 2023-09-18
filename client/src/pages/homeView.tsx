@@ -1,6 +1,7 @@
 import React from 'react'
 import ProductItem from '../components/productItem'
 import {TbSquareRoundedChevronsRight} from 'react-icons/tb'
+import { Link } from 'react-router-dom'
 
 interface HomeViewProps {
   
@@ -24,9 +25,9 @@ const HomeView: React.FC<HomeViewProps>=() =>{
         <ProductItem/>
         <ProductItem/>
     </div>
-    <div className='w-full flex justify-end items-center px-16 mt-10 mb-20'>
+    <Link to='products' className='w-full flex justify-end items-center px-16 mt-10 mb-20'>
       <h3 className='px-3 py-2 border border-black cursor-pointer rounded-full text-sm hover:border-green-300 hover:text-green-300 flex items-center justify-center gap-1'>View All <TbSquareRoundedChevronsRight size={15}/> </h3>
-    </div>
+    </Link>
     </>
   )
 }

@@ -3,14 +3,16 @@ import PaymentItem from '../components/paymentItem'
 import {FaAmazonPay,FaCcPaypal,FaCcVisa,FaCcMastercard} from 'react-icons/fa'
 import InputItem from '../components/inputItem'
 import OrderItem from '../components/orderItem'
+import { Link } from 'react-router-dom'
 interface CheckoutViewProps {
   
 }
 
 const CheckoutView: React.FC<CheckoutViewProps>=() =>{
   return (
-    <div className='w-full flex justify-between px-10'>
-     <div className='relative w-1/2 '>
+    <div className='relative w-full flex justify-between px-10'>
+      <Link  to='/products' className='absolute top-3 left-5 text-xs font-bold'>{" << Back to Products"}</Link>
+     <div className='relative w-1/2 mt-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Payment Details</h3>
       <div className='flex flex-col items-center justify-center'>
         <h3 className='text-sm font-bold  px-3 py-1 shadow-md rounded text-[#d1ba49] '>Payment Method</h3>
@@ -45,7 +47,7 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
         </div>
       </div>
      </div>
-     <div className=' relative w-1/2  px-10'>
+     <div className=' relative w-1/2  px-10 mt-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Order Details</h3>
       <div className='w-5/6 h-[650px] border-2  border-black overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
         <div>
