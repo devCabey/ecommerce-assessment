@@ -46,7 +46,7 @@ const Navbar: React.FC<NavbarProps>=() =>{
         </div>
         <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
          {
-          orders.map((data)=> <OrderItem key={(data.product as IProduct).id} name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
+          orders.map((data)=> <OrderItem key={(data.product as IProduct).id} id={(data.product as IProduct).id} name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
          }
          
         </div>

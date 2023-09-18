@@ -13,3 +13,9 @@ export const addToCart = async (id: string): Promise<IOrder[]> => {
   }
   return orderData;
 };
+
+export const removeFromCart = async (id: string): Promise<IOrder[]> => {
+  const orders = orderData.filter((data) => data.product == id);
+  console.log(orders);
+  return orders;
+};

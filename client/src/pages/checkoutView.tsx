@@ -62,7 +62,7 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
       <div className='w-5/6 h-[650px] border-2  border-black overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
         <div>
         {
-          orders.map((data)=> <OrderItem key={(data.product as IProduct).id}name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
+          orders.map((data)=> <OrderItem key={(data.product as IProduct).id} id={(data.product as IProduct).id} name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
          }
          
         </div>
