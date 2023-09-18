@@ -22,7 +22,7 @@ const HomeView: React.FC<HomeViewProps>=() =>{
     </div>
     <div className='grid grid-cols-4 gap-5 m-auto w-11/12 mt-10'>
         {
-          productsData.map((data)=><ProductItem key={data.id} name={data.name} photo={data.photo} id={data.id} description={data.description} price={data.price}/>)
+          productsData.map((data)=><ProductItem key={data.name} name={data.name} photo={data.photo} id={data.id} description={data.description} price={data.price}/>)
         }
     </div>
     <Link to='products' className='w-full flex justify-end items-center px-16 mt-10 mb-20'>

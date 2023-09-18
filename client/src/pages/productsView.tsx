@@ -23,7 +23,7 @@ const ProductsView: React.FC<ProductsViewProps>=() =>{
         {
           productsData.map((data)=>{
             if(data.name.includes(select) || select==="All Products"){
-             return <ProductItem key={data.id} name={data.name} photo={data.photo} id={data.id} description={data.description} price={data.price}/>
+             return <ProductItem key={data.name} name={data.name} photo={data.photo} id={data.id} description={data.description} price={data.price}/>
             }else{return ""}
           })
         }

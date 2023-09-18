@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { addToCart } from '../helpers'
 
 interface ProductItemProps {
   id:string,
@@ -22,7 +23,7 @@ const ProductItem: React.FC<ProductItemProps>=({name,photo,id,description,price}
         </div>
         <p className='text-xs my-3 font-normal text-gray-600 w-full overflow-hidden whitespace-nowrap text-ellipsis'>{description}</p>
         <div className='flex justify-end items-center'>
-          <span className='px-3 py-2 text-xs border border-green-500 rounded-full text-green-500 cursor-pointer hover:bg-green-500 hover:text-white'>Add to Cart</span>
+          <span className='px-3 py-2 text-xs border border-green-500 rounded-full text-green-500 cursor-pointer hover:bg-green-500 hover:text-white' onClick={()=>addToCart(id)}>Add to Cart</span>
         </div>
       </div>
     </div>
