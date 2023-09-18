@@ -1,11 +1,11 @@
-import React,{useState,useEffect} from "react"
+import React from "react"
 import {MdOutlineClose, MdOutlineAdd, MdMinimize} from 'react-icons/md'
 
 interface OrderItemProps {
-  photo:string
-  name:string
-  price:number;
-  quantity:number
+  photo?:string
+  name?:string
+  price?:number;
+  quantity?:number
 }
 
 const OrderItem: React.FC<OrderItemProps>=({photo,name,price,quantity}) =>{
@@ -23,7 +23,7 @@ const OrderItem: React.FC<OrderItemProps>=({photo,name,price,quantity}) =>{
             <span className="w-1/3 h-full border-x text-sm flex justify-center items-center"> {quantity} </span>
             <span className="w-1/3 h-full flex justify-center items-center cursor-pointer"><MdOutlineAdd size={15}/></span>
           </span>
-          <h3 className="text-sm font-medium text-gray-500 mt-2">{price}.00</h3>
+          <h3 className="text-sm font-medium text-gray-500 mt-2">${price}.00</h3>
         </div>
       </div>
     </div>

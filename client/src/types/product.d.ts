@@ -5,3 +5,8 @@ export interface IProduct {
   price?: number;
   photo?: string;
 }
+
+export interface ProductFilter {
+  filter: string;
+  photo: string;
+}

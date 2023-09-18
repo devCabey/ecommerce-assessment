@@ -1,14 +1,24 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import PaymentItem from '../components/paymentItem'
 import {FaAmazonPay,FaCcPaypal,FaCcVisa,FaCcMastercard} from 'react-icons/fa'
 import InputItem from '../components/inputItem'
 import OrderItem from '../components/orderItem'
 import { Link } from 'react-router-dom'
+import { IOrder, IProduct } from '../types'
+import { orderData, productsData } from '../data'
+import { populateOrder } from '../helpers'
 interface CheckoutViewProps {
   
 }
 
 const CheckoutView: React.FC<CheckoutViewProps>=() =>{
+
+  const [orders, setOrders] = useState<IOrder[]>([])
+
+  useEffect(()=>{
+     populateOrder(orderData,productsData).then((data)=>setOrders(data))
+  },[])
+  
   return (
     <div className='relative w-full flex justify-between px-10'>
       <Link  to='/products' className='absolute top-3 left-5 text-xs font-bold'>{" << Back to Products"}</Link>
@@ -51,18 +61,10 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
       <h3 className='text-lg font-bold font-serif m-5'>Order Details</h3>
       <div className='w-5/6 h-[650px] border-2  border-black overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
         <div>
-          {/* <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/> */}
+        {
+          orders.map((data)=> <OrderItem key={(data.product as IProduct).id}name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
+         }
+         
         </div>
       </div>
       <div className='flex justify-between my-10 px-3'>

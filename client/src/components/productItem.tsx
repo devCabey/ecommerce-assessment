@@ -15,7 +15,7 @@ const ProductItem: React.FC<ProductItemProps>=({name,photo,id,description,price}
       <Link  to={`/products/${id}`} className=' shadow shadow-gray-300 flex justify-center items-center bg-slate-100 rounded-lg w-full h-60 hover:border border-lime-800 '>
         <img src={photo} className='h-48 w-40 ' alt='product'/>
       </Link>
-      <div px-2>
+      <div className='px-2'>
         <div className='flex items-center justify-between text-sm mt-5 font-medium  font-sans'>
           <h3>{name}</h3>
           <h3>${price}</h3>

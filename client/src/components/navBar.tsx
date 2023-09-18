@@ -4,7 +4,7 @@ import {BiSearchAlt} from 'react-icons/bi'
 import OrderItem from './orderItem'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { IOrder } from '../types'
+import { IOrder, IProduct } from '../types'
 import { populateOrder } from '../helpers'
 import { orderData, productsData } from '../data'
 
@@ -46,7 +46,7 @@ const Navbar: React.FC<NavbarProps>=() =>{
         </div>
         <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
          {
-          orders.map((data)=> <OrderItem name={data?.product?.name} quantity={data.quantity} photo={data?.product?.photo} price={data?.product?.price}/>)
+          orders.map((data)=> <OrderItem key={(data.product as IProduct).id} name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
          }
          
         </div>
