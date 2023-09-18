@@ -16,6 +16,15 @@ export const addToCart = async (id: string): Promise<IOrder[]> => {
 
 export const removeFromCart = async (id: string): Promise<IOrder[]> => {
   const orders = orderData.filter((data) => data.product == id);
-  console.log(orders);
   return orders;
+};
+
+export const getTotalCartItems = async (
+  orderData: IOrder[]
+): Promise<number> => {
+  let total = 0;
+  for (let i = 0; i < orderData.length; i++) {
+    total += orderData[i].quantity;
+  }
+  return total;
 };

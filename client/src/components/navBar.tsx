@@ -5,7 +5,7 @@ import OrderItem from './orderItem'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { IOrder, IProduct } from '../types'
-import { populateOrder } from '../helpers'
+import { getTotalCartItems, populateOrder } from '../helpers'
 import { orderData, productsData } from '../data'
 
 
@@ -17,9 +17,11 @@ const Navbar: React.FC<NavbarProps>=() =>{
 
   const [openCart, setOpenCart]= useState<boolean>(false)
   const [orders, setOrders] = useState<IOrder[]>([])
+  const [orderItems, setOrderItems] = useState<number>(0)
 
   useEffect(()=>{
      populateOrder(orderData,productsData).then((data)=>setOrders(data))
+     getTotalCartItems(orderData).then((data)=>setOrderItems(data))
   },[orders])
   
   return (
@@ -38,7 +40,7 @@ const Navbar: React.FC<NavbarProps>=() =>{
       <div className=' relative flex items-center gap-2 cursor-pointer font-medium text-gray-900 ' onClick={()=>setOpenCart(true)}>
         <BsCartCheck size={20} />
         <span className='text-sm font-sans'>Cart</span>
-        <span className='border-2 rounded-full h-5 w-5 text-xs border-green-700 text-green-700 flex justify-center items-center absolute -top-2 -right-6 font-bold'> 18 </span>
+        <span className='border-2 rounded-full h-5 w-5 text-xs border-green-700 text-green-700 flex justify-center items-center absolute -top-2 -right-6 font-bold'> {orderItems} </span>
       </div>
       <div className={`absolute  top-16 ${ openCart? "right-0":"-right-[500px] hidden"} w-96 h-[850px] border  bg-white shadow-md  transition-all ease-in-out p-5 overflow-hidden`}>
         <div className='absolute top-5 left-5 border cursor-pointer' onClick={()=>setOpenCart(false)}>
