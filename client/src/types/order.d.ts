@@ -1,4 +1,6 @@
+import { IProduct } from './product';
+
 export interface IOrder {
-  product: string;
+  product: IProduct | string | undefined;
   quantity: number;
 }

@@ -51,6 +51,7 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
       <h3 className='text-lg font-bold font-serif m-5'>Order Details</h3>
       <div className='w-5/6 h-[650px] border-2  border-black overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
         <div>
+          {/* <OrderItem/>
           <OrderItem/>
           <OrderItem/>
           <OrderItem/>
@@ -61,8 +62,7 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
           <OrderItem/>
           <OrderItem/>
           <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
+          <OrderItem/> */}
         </div>
       </div>
       <div className='flex justify-between my-10 px-3'>

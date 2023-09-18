@@ -1,9 +1,12 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {BsCartCheck} from 'react-icons/bs'
 import {BiSearchAlt} from 'react-icons/bi'
 import OrderItem from './orderItem'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import { IOrder } from '../types'
+import { populateOrder } from '../helpers'
+import { orderData, productsData } from '../data'
 
 
 interface NavbarProps {
@@ -13,6 +16,12 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps>=() =>{
 
   const [openCart, setOpenCart]= useState<boolean>(false)
+  const [orders, setOrders] = useState<IOrder[]>([])
+
+  useEffect(()=>{
+     populateOrder(orderData,productsData).then((data)=>setOrders(data))
+  },[orders])
+  
   return (
     <div className='w-full h-14 bg-white flex justify-between items-center px-20 gap-5 sticky top-0 z-50'>
       <Link to='/' >
@@ -36,20 +45,10 @@ const Navbar: React.FC<NavbarProps>=() =>{
           <MdClose size={20}/>
         </div>
         <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
-          <OrderItem/>
+         {
+          orders.map((data)=> <OrderItem name={data?.product?.name} quantity={data.quantity} photo={data?.product?.photo} price={data?.product?.price}/>)
+         }
+         
         </div>
         <div className='h-[150px] border shadow-md rounded-t-md p-5'>
             <div className='flex items-center justify-between'>
