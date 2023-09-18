@@ -2,6 +2,7 @@ import React from 'react'
 import ProductItem from '../components/productItem'
 import {TbSquareRoundedChevronsRight} from 'react-icons/tb'
 import { Link } from 'react-router-dom'
+import { productsData } from '../data'
 
 interface HomeViewProps {
   
@@ -20,10 +21,9 @@ const HomeView: React.FC<HomeViewProps>=() =>{
     </div>
     </div>
     <div className='grid grid-cols-4 gap-5 m-auto w-11/12 mt-10'>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
+        {
+          productsData.map((data)=><ProductItem key={data.id} name={data.name} photo={data.photo} id={data.id} description={data.description} price={data.price}/>)
+        }
     </div>
     <Link to='products' className='w-full flex justify-end items-center px-16 mt-10 mb-20'>
       <h3 className='px-3 py-2 border border-black cursor-pointer rounded-full text-sm hover:border-green-300 hover:text-green-300 flex items-center justify-center gap-1'>View All <TbSquareRoundedChevronsRight size={15}/> </h3>

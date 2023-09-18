@@ -1,6 +1,7 @@
 import React from 'react'
 import ProductItem from '../components/productItem'
 import ProductShortcut from '../components/productShortcut'
+import { productsData } from '../data'
 
 
 interface ProductsViewProps {
@@ -19,33 +20,9 @@ const ProductsView: React.FC<ProductsViewProps>=() =>{
      </div>
      <h1 className='my-10 mx-10 text-xl font-bold '>"ALL PRODUCT"</h1>
      <div className='grid grid-cols-4'>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
-        <ProductItem/>
+        {
+          productsData.map((data)=><ProductItem key={data.id} name={data.name} photo={data.photo} id={data.id} description={data.description} price={data.price}/>)
+        }
      </div>
     </div>
   )
