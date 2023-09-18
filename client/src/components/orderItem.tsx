@@ -1,5 +1,6 @@
 import React from "react"
 import {MdOutlineClose, MdOutlineAdd, MdMinimize} from 'react-icons/md'
+import QuantityItem from "./quantityItem";
 
 interface OrderItemProps {
   photo?:string
@@ -18,11 +19,7 @@ const OrderItem: React.FC<OrderItemProps>=({photo,name,price,quantity}) =>{
           <h2 className="text-sm font-medium">{name}</h2>  
         </div>
         <div className="h-5 flex justify-between">
-          <span className=" flex justify-between items-center border rounded w-24 h-6 mt-2">
-            <span className="w-1/3 h-full flex justify-center cursor-pointer "><MdMinimize size={15}/></span>
-            <span className="w-1/3 h-full border-x text-sm flex justify-center items-center"> {quantity} </span>
-            <span className="w-1/3 h-full flex justify-center items-center cursor-pointer"><MdOutlineAdd size={15}/></span>
-          </span>
+          <QuantityItem quantity={quantity as number}/>
           <h3 className="text-sm font-medium text-gray-500 mt-2">${price}.00</h3>
         </div>
       </div>

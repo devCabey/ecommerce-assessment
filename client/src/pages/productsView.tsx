@@ -9,7 +9,7 @@ interface ProductsViewProps {
 }
 
 const ProductsView: React.FC<ProductsViewProps>=() =>{
-  const [select,setSelect] = useState<string>("")
+  const [select,setSelect] = useState<string>("All Products")
   return (
     <div className='relative'>
       
