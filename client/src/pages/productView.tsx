@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import {IProduct} from "../types"
 import { Link } from 'react-router-dom';
 import { productsData } from '../data';
+import { addToCart } from '../helpers';
 type ProductLoader = (params: { id: string }) => Promise<any>;
 
 interface ProductViewProps {
@@ -40,7 +41,7 @@ const ProductView: React.FC<ProductViewProps> = ({ loader }) => {
           <h1 className='text-xl font-semibold'>${product.price}.00</h1>
         </div>
         <div className='flex justify-center items-center'>
-          <span className='px-4 py-2 border cursor-pointer rounded-full hover:border-green-300 hover:text-green-300 border-black'>Add to Cart</span>
+          <span className='px-4 py-2 border cursor-pointer rounded-full hover:border-green-300 hover:text-green-300 border-black' onClick={()=>addToCart(id as string)}>Add to Cart</span>
         </div>
       </div>
     </div>
