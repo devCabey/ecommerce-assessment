@@ -9,9 +9,8 @@ const typeDefs = gql`
     description: String
   }
 
-
   type Order {
-    product: Product || String
+    product:String
     quantity:Int
     
   }
