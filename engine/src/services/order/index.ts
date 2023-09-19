@@ -1,64 +1,43 @@
 import { Order, OrderInput } from '../../types';
+import { productData } from '../product';
 
-const orderData = [
+export const orderData = [
   {
-    id: '1',
-    cart: [
-      {
-        product: {
-          id: '3',
-          name: 'shoe',
-          description: 'double monk strap',
-          photo: 'http://locaisifo',
-          price: 10.2,
-        },
-        quantity: 5,
-      },
-      {
-        product: {
-          id: '2',
-          name: 'watch',
-          description: 'Classic Watch',
-          photo: 'http://locaisifo',
-          price: 10.2,
-        },
-        quantity: 2,
-      },
-    ],
-    amount: 200,
+    product: '2',
+    quantity: 5,
   },
   {
-    id: '2',
-    cart: [
-      {
-        product: {
-          id: '3',
-          name: 'shoe',
-          description: 'double monk strap',
-          photo: 'http://locaisifo',
-          price: 10.2,
-        },
-        quantity: 5,
-      },
-      {
-        product: {
-          id: '2',
-          name: 'watch',
-          description: 'Classic Watch',
-          photo: 'http://locaisifo',
-          price: 10.2,
-        },
-        quantity: 2,
-      },
-    ],
-    amount: 200,
+    product: '1',
+    quantity: 2,
   },
 ];
 
+export async function getOrders(): Promise<Order[]> {
+  try {
+    return orderData;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function createOrder(input: OrderInput): Promise<Order[]> {
   try {
-    const { orderId, cart, amount } = input;
-    await orderData.push({ id: orderId, ...input });
+    const { product, quantity } = input;
+    if (!product) throw new Error('Provide the product id');
+    // Check whether or not the product exist in the product array
+    const _productIndex = productData.findIndex((data) => data.id === product);
+    if (_productIndex < 0) throw new Error('Product not found');
+
+    // Check whether the product is already in the cart
+    const _orderIndex = orderData.findIndex((data) => data.product === product);
+    if (_orderIndex < 0) {
+      orderData.push({
+        product,
+        quantity: quantity ? quantity : 1,
+      });
+    } else {
+      orderData[_orderIndex].quantity += quantity ? quantity : 1;
+    }
     return orderData;
   } catch (err) {
     throw err;
@@ -67,16 +46,23 @@ export async function createOrder(input: OrderInput): Promise<Order[]> {
 
 export async function updateOrder(input: OrderInput): Promise<Order[]> {
   try {
-    const { orderId, cart, amount } = input;
-    const orders = orderData.map((data) => {
-      if (data.id == orderId) {
-        return { ...data, cart: [...data.cart, ...cart], amount };
-      } else {
-        return data;
-      }
-    });
+    const { product, quantity } = input;
+    if (!product) throw new Error('Provide the product id');
+    // Check whether or not the product exist in the product array
+    const _productIndex = productData.findIndex((data) => data.id === product);
+    if (_productIndex < 0) throw new Error('Product not found');
 
-    return orders;
+    // Check whether the product is already in the cart
+    const _orderIndex = orderData.findIndex((data) => data.product === product);
+    if (_orderIndex < 0) {
+      orderData.push({
+        product,
+        quantity: quantity ? quantity : 1,
+      });
+    } else {
+      orderData[_orderIndex].quantity += quantity ? quantity : 1;
+    }
+    return orderData;
   } catch (err) {
     throw err;
   }

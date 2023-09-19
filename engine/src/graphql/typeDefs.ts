@@ -9,15 +9,11 @@ const typeDefs = gql`
     description: String
   }
 
-  type OrderItem {
-    product: Product
-    quantity: Int
-  }
 
   type Order {
-    id: String
-    cart: [OrderItem]
-    amount: Float
+    product: Product || String
+    quantity:Int
+    
   }
 
   input ProductInput {
@@ -28,21 +24,16 @@ const typeDefs = gql`
     price: Float
   }
 
-  input OrderItemInput {
-    product: ProductInput
-    quantity: Int
-  }
+
 
   input CreateOrderInput {
-    orderId: String
-    cart: [OrderItemInput]!
-    amount: Float
+    product:String!
+    quantity:Int
   }
 
   input UpdateOrderInput {
-    orderId: String!
-    cart: [OrderItemInput]
-    amount: Float
+    product:String!
+    quantity:Int
   }
 
   type Query {
