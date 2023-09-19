@@ -5,7 +5,7 @@ import OrderItem from './orderItem'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { IOrder, IProduct } from '../types'
-import { getTotalCartItems, populateOrder } from '../helpers'
+import { getTotalAmount, getTotalCartItems, populateOrder } from '../helpers'
 import { orderData, productsData } from '../data'
 
 
@@ -18,10 +18,13 @@ const Navbar: React.FC<NavbarProps>=() =>{
   const [openCart, setOpenCart]= useState<boolean>(false)
   const [orders, setOrders] = useState<IOrder[]>([])
   const [orderItems, setOrderItems] = useState<number>(0)
+  const [orderTotal, setOrderTotal] = useState<number>(0)
 
   useEffect(()=>{
      populateOrder(orderData,productsData).then((data)=>setOrders(data))
      getTotalCartItems(orderData).then((data)=>setOrderItems(data))
+     getTotalAmount(orders).then(data=>setOrderTotal(data))
+
   },[orders])
   
   return (
@@ -55,7 +58,7 @@ const Navbar: React.FC<NavbarProps>=() =>{
         <div className='h-[150px] border shadow-md rounded-t-md p-5'>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold'>Total</h3>
-              <h3 className='text-lg font-mono'>$3000.00</h3>
+              <h3 className='text-lg font-mono'>${orderTotal}.00</h3>
             </div>
             <span onClick={()=>setOpenCart(false)}><Link  to="/checkout" className='h-10 border flex justify-center items-center cursor-pointer text-sm font-medium bg-lime-800 text-white rounded-xl mt-5' >Checkout</Link></span>
         </div>

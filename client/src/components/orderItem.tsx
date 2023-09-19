@@ -1,5 +1,5 @@
 import React from "react"
-import {MdOutlineClose, MdOutlineAdd, MdMinimize} from 'react-icons/md'
+import {MdOutlineClose} from 'react-icons/md'
 import QuantityItem from "./quantityItem";
 import { removeFromCart } from "../helpers";
 
