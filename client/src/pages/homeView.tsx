@@ -2,13 +2,13 @@ import React from 'react'
 import ProductItem from '../components/productItem'
 import {TbSquareRoundedChevronsRight} from 'react-icons/tb'
 import { Link } from 'react-router-dom'
-import { productsData } from '../data'
+import { useQuery } from '@apollo/client'
+import { GET_ALL_PRODUCTS } from '../graphql/query'
+import { IProduct } from '../types'
 
-interface HomeViewProps {
-  
-}
+const HomeView: React.FC=() =>{
 
-const HomeView: React.FC<HomeViewProps>=() =>{
+  const {loading, error, data} = useQuery(GET_ALL_PRODUCTS,{variables:{filter:""}})
   return (
     <>
     <div className='w-full h-[500px] relative'>
@@ -20,11 +20,14 @@ const HomeView: React.FC<HomeViewProps>=() =>{
         <h1 className='text-6xl text-green-100'>Shop Your <br/>Apple Products</h1>
     </div>
     </div>
-    <div className='grid grid-cols-4 gap-5 m-auto w-11/12 mt-10'>
-        {
-          productsData.map((data)=><ProductItem key={data.name} name={data.name} photo={data.photo} id={data.id} description={data.description} price={data.price}/>)
-        }
-    </div>
+    {
+      loading?<div className='w-11/12 h-64 flex justify-center items-center'>Loading ...</div>:error?<div></div>:data?  <div className='grid grid-cols-4 gap-5 m-auto w-11/12 mt-10'>
+      {
+        data.products?.map((prod:IProduct)=><ProductItem key={prod.name} name={prod.name} photo={prod.photo} id={prod.id} description={prod.description} price={prod.price}/>)
+      }
+  </div>:""
+    }
+  
     <Link to='products' className='w-full flex justify-end items-center px-16 mt-10 mb-20'>
       <h3 className='px-3 py-2 border border-black cursor-pointer rounded-full text-sm hover:border-green-300 hover:text-green-300 flex items-center justify-center gap-1'>View All <TbSquareRoundedChevronsRight size={15}/> </h3>
     </Link>

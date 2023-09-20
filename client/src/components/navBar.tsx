@@ -5,27 +5,26 @@ import OrderItem from './orderItem'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { IOrder, IProduct } from '../types'
-import { getTotalAmount, getTotalCartItems, populateOrder } from '../helpers'
-import { orderData, productsData } from '../data'
+import { getTotalAmount, getTotalCartItems} from '../helpers'
+import { useQuery } from '@apollo/client'
+import { GET_ORDERS } from '../graphql/query'
 
 
-interface NavbarProps {
-
-}
-
-const Navbar: React.FC<NavbarProps>=() =>{
+const Navbar: React.FC=() =>{
 
   const [openCart, setOpenCart]= useState<boolean>(false)
-  const [orders, setOrders] = useState<IOrder[]>([])
   const [orderItems, setOrderItems] = useState<number>(0)
   const [orderTotal, setOrderTotal] = useState<number>(0)
 
-  useEffect(()=>{
-     populateOrder(orderData,productsData).then((data)=>setOrders(data))
-     getTotalCartItems(orderData).then((data)=>setOrderItems(data))
-     getTotalAmount(orders).then(data=>setOrderTotal(data))
+  const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
 
-  },[orders])
+
+  useEffect(()=>{
+    console.log(data)
+     getTotalCartItems(data?.orders || []).then((data)=>setOrderItems(data))
+     getTotalAmount(data?.orders || []).then(data=>setOrderTotal(data))
+
+  },[data])
   
   return (
     <div className='w-full h-14 bg-white flex justify-between items-center px-20 gap-5 sticky top-0 z-50'>
@@ -49,12 +48,17 @@ const Navbar: React.FC<NavbarProps>=() =>{
         <div className='absolute top-5 left-5 border cursor-pointer' onClick={()=>setOpenCart(false)}>
           <MdClose size={20}/>
         </div>
-        <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
-         {
-          orders.map((data)=> <OrderItem key={(data.product as IProduct).id} id={(data.product as IProduct).id} name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
-         }
-         
-        </div>
+        {
+          loading?<div className='w-11/12 h-64 flex justify-center items-center'>Loading ...</div>
+          :error?<div>Error...</div>
+          :data?  <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
+                  {
+                    data.orders?.map((prod:IOrder)=><OrderItem key={(prod.product as IProduct).name} id={(prod.product as IProduct).id} name={(prod.product as IProduct).name} quantity={prod.quantity} photo={(prod.product as IProduct).photo} price={(prod.product as IProduct).price}/>)
+                  }
+                </div>
+          :<div>Empty ...</div>
+        }
+       
         <div className='h-[150px] border shadow-md rounded-t-md p-5'>
             <div className='flex items-center justify-between'>
               <h3 className='text-xl font-bold'>Total</h3>

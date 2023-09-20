@@ -1,24 +1,21 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import PaymentItem from '../components/paymentItem'
 import {FaAmazonPay,FaCcPaypal,FaCcVisa,FaCcMastercard} from 'react-icons/fa'
 import InputItem from '../components/inputItem'
 import OrderItem from '../components/orderItem'
 import { Link } from 'react-router-dom'
 import { IOrder, IProduct } from '../types'
-import { orderData, productsData } from '../data'
-import { populateOrder } from '../helpers'
-interface CheckoutViewProps {
-  
-}
+import { GET_ORDERS } from '../graphql/query'
+import { useQuery } from '@apollo/client'
+import { getTotalAmount } from '../helpers'
 
-const CheckoutView: React.FC<CheckoutViewProps>=() =>{
-
-  const [orders, setOrders] = useState<IOrder[]>([])
+const CheckoutView: React.FC=() =>{
+  const [orderTotal, setOrderTotal] = useState<number>(0)
+  const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
 
   useEffect(()=>{
-     populateOrder(orderData,productsData).then((data)=>setOrders(data))
-  },[])
-  
+    getTotalAmount(data?.orders || []).then(data=>setOrderTotal(data))
+ },[data])
   return (
     <div className='relative w-full flex justify-between px-10'>
       <Link  to='/products' className='absolute top-3 left-5 text-xs font-bold'>{" << Back to Products"}</Link>
@@ -60,16 +57,20 @@ const CheckoutView: React.FC<CheckoutViewProps>=() =>{
      <div className=' relative w-1/2  px-10 mt-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Order Details</h3>
       <div className='w-5/6 h-[650px] border-2  border-black overflow-scroll overflow-y-scroll flex flex-col justify-start items-center'>
-        <div>
-        {
-          orders.map((data)=> <OrderItem key={(data.product as IProduct).id} id={(data.product as IProduct).id} name={(data.product as IProduct).name} quantity={data.quantity} photo={(data?.product as IProduct).photo} price={(data.product as IProduct).price}/>)
-         }
-         
-        </div>
+      {
+      loading?<div className='w-11/12 h-64 flex justify-center items-center'>Loading ...</div>
+      :error?<div>Error...</div>
+      :data? <div>
+                {
+                  data.orders?.map((prod:IOrder)=><OrderItem key={(prod.product as IProduct).name} id={(prod.product as IProduct).id} name={(prod.product as IProduct).name} quantity={prod.quantity} photo={(prod.product as IProduct).photo} price={(prod.product as IProduct).price}/>)
+                }
+              </div>
+      :<div>Empty ...</div>
+    }
       </div>
       <div className='flex justify-between my-10 px-3'>
         <h3 className='text-lg font-bold font-serif'>Total </h3>
-        <h3 className='text-lg font-medium font-mono'>$3000.00</h3>
+        <h3 className='text-lg font-medium font-mono'>${orderTotal}</h3>
       </div>
      </div>
     </div>
