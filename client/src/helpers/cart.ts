@@ -1,7 +1,9 @@
-import { orderData } from '../data';
 import { IOrder, IProduct } from '../types';
 
-export const addToCart = async (id: string): Promise<IOrder[]> => {
+export const addToCart = async (
+  id: string,
+  orderData: IOrder[]
+): Promise<IOrder[]> => {
   const cartItem = orderData.findIndex((data) => data.product === id);
   if (cartItem >= 0) {
     orderData[cartItem].quantity++;
@@ -14,7 +16,10 @@ export const addToCart = async (id: string): Promise<IOrder[]> => {
   return orderData;
 };
 
-export const removeFromCart = async (id: string): Promise<IOrder[]> => {
+export const removeFromCart = async (
+  id: string,
+  orderData: IOrder[]
+): Promise<IOrder[]> => {
   const orders = orderData.filter((data) => data.product === id);
   return orders;
 };

@@ -42,7 +42,7 @@ console.log(data)
            <h1 className='text-xl font-semibold'>${data.product.price}.00</h1>
          </div>
          <div className='flex justify-center items-center'>
-           <span className='px-4 py-2 border cursor-pointer rounded-full hover:border-green-300 hover:text-green-300 border-black' onClick={()=>addToCart(id as string)}>Add to Cart</span>
+           <span className='px-4 py-2 border cursor-pointer rounded-full hover:border-green-300 hover:text-green-300 border-black' onClick={()=>addToCart(id as string,[])}>Add to Cart</span>
          </div>
        </div>
      </div> 
