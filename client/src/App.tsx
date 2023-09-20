@@ -6,8 +6,8 @@ import HomeView from './pages/homeView';
 import ProductsView from './pages/productsView';
 import ProductView  from './pages/productView';
 import CheckoutView from './pages/checkoutView';
-import productLoader from './api/product';
 import Layout from './layout/layout';
+import { productLoader } from './helpers';
 
 
 function App() {

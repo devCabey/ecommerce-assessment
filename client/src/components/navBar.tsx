@@ -20,7 +20,6 @@ const Navbar: React.FC=() =>{
 
 
   useEffect(()=>{
-    console.log(data)
      getTotalCartItems(data?.orders || []).then((data)=>setOrderItems(data))
      getTotalAmount(data?.orders || []).then(data=>setOrderTotal(data))
 
