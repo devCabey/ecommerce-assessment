@@ -11,6 +11,7 @@ import { getTotalAmount } from '../helpers'
 
 const CheckoutView: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
+  const [active, setActive] = useState<string>("")
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
 
   useEffect(()=>{
@@ -24,10 +25,10 @@ const CheckoutView: React.FC=() =>{
       <div className='flex flex-col items-center justify-center'>
         <h3 className='text-sm font-bold  px-3 py-1 shadow-md rounded text-[#d1ba49] '>Payment Method</h3>
         <div className='flex items-center justify-between gap-5 my-3 p-5 border-b rounded'>
-          <PaymentItem Icon={FaAmazonPay} name='Amazon Pay'/>
-          <PaymentItem  Icon={FaCcPaypal} name='Paypal' />
-          <PaymentItem  Icon={FaCcVisa} name='Visa' />
-          <PaymentItem  Icon={FaCcMastercard} name='Master Card'/>
+          <PaymentItem Icon={FaAmazonPay} name='Amazon Pay' active={active} onClick={()=>setActive("Amazon Pay")}/>
+          <PaymentItem  Icon={FaCcPaypal} name='Paypal' active={active} onClick={()=>setActive("Paypal")} />
+          <PaymentItem  Icon={FaCcVisa} name='Visa' active={active} onClick={()=>setActive("Visa")}/>
+          <PaymentItem  Icon={FaCcMastercard} name='Master Card' active={active} onClick={()=>setActive("Master Card")}/>
         </div>
         {/* Account Detail */}
         <div className='w-full p-5'>
