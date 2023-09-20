@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 import { UPDATEORDER } from '../graphql/mutation'
 import { GET_ORDERS } from '../graphql/query'
+import useOrderStore from '../zustand/orderStore'
 
 interface ProductItemProps {
   id:string,
@@ -16,8 +17,12 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps>=({name,photo,id,description,price}) =>{
 
   // will use the data to update order in context
-  const [updateOrder,{loading,error,data}] = useMutation(UPDATEORDER,{ variables:{input:{product:id, quantity:1}}, refetchQueries: [{ query: GET_ORDERS }],})
+  const [updateOrder,{data}] = useMutation(UPDATEORDER,{ variables:{input:{product:id, quantity:1}}, refetchQueries: [{ query: GET_ORDERS }],})
 
+  const { setOrders} = useOrderStore()
+  useEffect(()=>{
+    setOrders(data?.orders)
+  },[setOrders,data])
   return (
     <div className='w-60 m-5'>
       <Link  to={`/products/${id}`} className=' shadow shadow-gray-300 flex justify-center items-center bg-slate-100 rounded-lg w-full h-60 hover:border border-lime-800 '>

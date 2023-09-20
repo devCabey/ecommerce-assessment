@@ -8,6 +8,7 @@ import { IOrder, IProduct } from '../types'
 import { getTotalAmount, getTotalCartItems} from '../helpers'
 import { useQuery } from '@apollo/client'
 import { GET_ORDERS } from '../graphql/query'
+import useOrderStore from '../zustand/orderStore'
 
 
 const Navbar: React.FC=() =>{
@@ -17,13 +18,15 @@ const Navbar: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
 
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
+  const {orders, setOrders} = useOrderStore()
 
 
   useEffect(()=>{
-     getTotalCartItems(data?.orders || []).then((data)=>setOrderItems(data))
-     getTotalAmount(data?.orders || []).then(data=>setOrderTotal(data))
+     getTotalCartItems(orders|| []).then((data)=>setOrderItems(data))
+     getTotalAmount(orders|| []).then(data=>setOrderTotal(data))
+     setOrders(data?.orders)
 
-  },[data])
+  },[data, orders, setOrders])
   
   return (
     <div className='w-full h-14 bg-white flex justify-between items-center px-20 gap-5 sticky top-0 z-50'>
@@ -52,7 +55,7 @@ const Navbar: React.FC=() =>{
           :error?<div>Error...</div>
           :data?  <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
                   {
-                    data.orders?.map((prod:IOrder)=><OrderItem key={(prod.product as IProduct).name} id={(prod.product as IProduct).id} name={(prod.product as IProduct).name} quantity={prod.quantity} photo={(prod.product as IProduct).photo} price={(prod.product as IProduct).price}/>)
+                    orders?.map((prod:IOrder)=><OrderItem key={(prod.product as IProduct).name} id={(prod.product as IProduct).id} name={(prod.product as IProduct).name} quantity={prod.quantity} photo={(prod.product as IProduct).photo} price={(prod.product as IProduct).price}/>)
                   }
                 </div>
           :<div>Empty ...</div>

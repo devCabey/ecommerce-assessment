@@ -8,21 +8,24 @@ import { IOrder, IProduct } from '../types'
 import { GET_ORDERS } from '../graphql/query'
 import { useQuery } from '@apollo/client'
 import { getTotalAmount } from '../helpers'
+import useOrderStore from '../zustand/orderStore'
 
 const CheckoutView: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
   const [active, setActive] = useState<string>("")
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
+  const {orders, setOrders} = useOrderStore()
 
   useEffect(()=>{
-    getTotalAmount(data?.orders || []).then(data=>setOrderTotal(data))
- },[data])
+    getTotalAmount(orders || []).then(data=>setOrderTotal(data))
+    setOrders(data?.orders)
+ },[data, orders, setOrders])
   return (
     <div className='relative w-full flex justify-between px-10'>
       <Link  to='/products' className='absolute top-3 left-5 text-xs font-bold'>{" << Back to Products"}</Link>
      <div className='relative w-1/2 mt-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Payment Details</h3>
-      <div className='flex flex-col items-center justify-center'>
+      <form className='flex flex-col items-center justify-center'>
         <h3 className='text-sm font-bold  px-3 py-1 shadow-md rounded text-[#d1ba49] '>Payment Method</h3>
         <div className='flex items-center justify-between gap-5 my-3 p-5 border-b rounded'>
           <PaymentItem Icon={FaAmazonPay} name='Amazon Pay' active={active} onClick={()=>setActive("Amazon Pay")}/>
@@ -33,7 +36,7 @@ const CheckoutView: React.FC=() =>{
         {/* Account Detail */}
         <div className='w-full p-5'>
           <h3 className='text-sm font-serif font-bold mb-3 underline'>Account Details</h3>
-          <InputItem type='text' placeholder='Please Enter Your Account Name' name='Account Name'/>
+          <InputItem type='text' placeholder='Please Enter Your Account Name' name='Account Name' />
           <InputItem type='text' placeholder='Please Enter Account Number' name='Account Number'/>
           <div className='flex items-center justify-between gap-5'>
             <InputItem type='text' placeholder='Please Enter CCV' name='CCV' moreStyle=''/>
@@ -51,9 +54,9 @@ const CheckoutView: React.FC=() =>{
           <InputItem type='text' placeholder='Please Enter Your Address' name='Address'/>
         </div>
         <div className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '>
-          <span className='text-sm font-bold text-[#d1ba49] '>Checkout</span>
+          <button className='text-sm font-bold text-[#d1ba49] ' type='submit'>Checkout</button>
         </div>
-      </div>
+      </form>
      </div>
      <div className=' relative w-1/2  px-10 mt-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Order Details</h3>
@@ -63,7 +66,7 @@ const CheckoutView: React.FC=() =>{
       :error?<div>Error...</div>
       :data? <div>
                 {
-                  data.orders?.map((prod:IOrder)=><OrderItem key={(prod.product as IProduct).name} id={(prod.product as IProduct).id} name={(prod.product as IProduct).name} quantity={prod.quantity} photo={(prod.product as IProduct).photo} price={(prod.product as IProduct).price}/>)
+                  orders?.map((prod:IOrder)=><OrderItem key={(prod.product as IProduct).name} id={(prod.product as IProduct).id} name={(prod.product as IProduct).name} quantity={prod.quantity} photo={(prod.product as IProduct).photo} price={(prod.product as IProduct).price}/>)
                 }
               </div>
       :<div>Empty ...</div>
