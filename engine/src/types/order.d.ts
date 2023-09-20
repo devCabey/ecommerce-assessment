@@ -6,6 +6,6 @@ export interface OrderInput {
 }
 
 export interface Order {
-  product: string;
+  product: string | Product;
   quantity: number;
 }

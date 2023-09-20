@@ -10,7 +10,7 @@ const resolvers = {
   Query: {
     product: (_: any, { id }: any) => getProduct(id),
     products: (_: any, { filter }: any) => getProducts(filter),
-    orders: () => getOrders(),
+    orders: (_: any, { populate }: any) => getOrders(populate),
   },
   Mutation: {
     createOrder: (_: any, { input }: any) => createOrder(input),

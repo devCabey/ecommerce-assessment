@@ -1,6 +1,8 @@
 import { gql } from 'graphql-tag';
 
 const typeDefs = gql`
+  scalar GenericProduct
+
   type Product {
     id: String!
     name: String!
@@ -10,9 +12,8 @@ const typeDefs = gql`
   }
 
   type Order {
-    product:String
-    quantity:Int
-    
+    product: GenericProduct
+    quantity: Int
   }
 
   input ProductInput {
@@ -23,22 +24,20 @@ const typeDefs = gql`
     price: Float
   }
 
-
-
   input CreateOrderInput {
-    product:String!
-    quantity:Int
+    product: String!
+    quantity: Int
   }
 
   input UpdateOrderInput {
-    product:String!
-    quantity:Int
+    product: String!
+    quantity: Int
   }
 
   type Query {
     product(id: String!): Product
     products(filter: String): [Product]!
-    orders: [Order]!
+    orders(populate: Boolean!): [Order]!
   }
   type Mutation {
     createOrder(input: CreateOrderInput!): [Order]!

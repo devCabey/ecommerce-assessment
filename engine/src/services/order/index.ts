@@ -1,4 +1,4 @@
-import { Order, OrderInput } from '../../types';
+import { Order, OrderInput, Product } from '../../types';
 import { productData } from '../product';
 
 export const orderData = [
@@ -12,9 +12,21 @@ export const orderData = [
   },
 ];
 
-export async function getOrders(): Promise<Order[]> {
+export async function getOrders(populate: boolean): Promise<Order[]> {
   try {
-    return orderData;
+    if (populate) {
+      const populatedData = orderData.map((order) => {
+        return {
+          ...order,
+          product: productData.find(
+            (product) => order.product === product.id
+          ) as Product,
+        };
+      });
+      return populatedData;
+    } else {
+      return orderData;
+    }
   } catch (err) {
     throw err;
   }
