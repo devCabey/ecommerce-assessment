@@ -16,7 +16,7 @@ const CheckoutView: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
   const [active, setActive] = useState<string>("")
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
-  const orders = useAppSelector((state)=>state.orderSlice.orders)
+  const orders = useAppSelector((state)=>state.order.orders)
   const dispatch = useAppDispatch()
 
   useEffect(()=>{

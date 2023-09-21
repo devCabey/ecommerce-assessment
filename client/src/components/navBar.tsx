@@ -19,7 +19,7 @@ const Navbar: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
 
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
-  const orders = useAppSelector((state)=>state.orderSlice.orders)
+  const orders = useAppSelector((state)=>state.order.orders)
   const dispatch = useAppDispatch()
 
 
