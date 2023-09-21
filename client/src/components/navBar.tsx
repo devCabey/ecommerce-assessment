@@ -1,15 +1,18 @@
 import React,{useState,useEffect} from 'react'
+import * as _ from 'lodash';
 import {BsCartCheck} from 'react-icons/bs'
 import {BiSearchAlt} from 'react-icons/bi'
+import {IoMdCloseCircle} from 'react-icons/io'
 import OrderItem from './orderItem'
 import { MdClose } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { IOrder, IProduct } from '../types'
 import { getTotalAmount, getTotalCartItems} from '../helpers'
-import { useQuery } from '@apollo/client'
-import { GET_ORDERS } from '../graphql/query'
+import { useQuery,useLazyQuery } from '@apollo/client'
+import { GET_ALL_PRODUCTS, GET_ORDERS } from '../graphql/query'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { setOrder } from '../redux/orderSlice'
+import SearchItem from './searchItem';
 
 
 const Navbar: React.FC=() =>{
@@ -17,8 +20,13 @@ const Navbar: React.FC=() =>{
   const [openCart, setOpenCart]= useState<boolean>(false)
   const [orderItems, setOrderItems] = useState<number>(0)
   const [orderTotal, setOrderTotal] = useState<number>(0)
+  const [openSearch,setOpenSearch] = useState<boolean>(false)
+  const [searchText, setSearchText] = useState<string>('')
+  const [search, setSearch] = useState<IProduct[]>([])
 
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
+  const [products,{data:searchData}] =  useLazyQuery(GET_ALL_PRODUCTS,{variables:{filter:searchText}})
+  
   const orders = useAppSelector((state)=>state.order.orders)
   const dispatch = useAppDispatch()
 
@@ -27,8 +35,21 @@ const Navbar: React.FC=() =>{
      getTotalCartItems(orders|| []).then((data)=>setOrderItems(data))
      getTotalAmount(orders|| []).then(data=>setOrderTotal(data))
      dispatch(setOrder(data?.orders))
-  },[data,dispatch,orders])
+     setSearch(searchData?.products)
+  },[data,dispatch,orders, searchData])
    
+
+  const deBounceSearch = ()=>{
+    const debouncer = _.debounce(() => {
+     products()
+    }, 500)
+    debouncer()
+  }
+
+  const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+    setSearchText(e.target.value)
+    deBounceSearch()
+  }
   return (
     <div className='w-full h-14 bg-white flex justify-between items-center px-20 gap-5 sticky top-0 z-50'>
       <Link to='/' >
@@ -38,9 +59,17 @@ const Navbar: React.FC=() =>{
         />
       </Link>
     
-      <div className='w-96 h-10 shadow-sm border border-gray-100 rounded-full flex items-center justify-between px-2'>
-        <input type="text" placeholder='Search Product' className='flex items-center flex-1 h-full border-none outline-none px-3 rounded-full text-sm' />
+      <div className='relative w-96 h-10 shadow-sm border border-gray-100 rounded-full flex items-center justify-between px-2'>
+        <input type="text" placeholder='Search Product'  onChange={(e)=>handleOnChange(e)} onClick={()=>setOpenSearch(true)} className='flex items-center flex-1 h-full border-none outline-none px-3 rounded-full text-sm' />
         <BiSearchAlt size={19} color='gray'/>
+        <div className={`absolute top-12 w-96 max-h-96 bg-white z-40 border py-10 px-2   flex-col items-center overflow-scroll overflow-y-scroll ${openSearch?"flex":"hidden"}`}>
+          <span className='absolute top-2 right-2 cursor-pointer' onClick={()=>setOpenSearch(false)}>
+            <IoMdCloseCircle size={20}/>
+          </span>
+          {
+            search?.length === 0?"Empty ...": search?.map((data)=> <SearchItem id={data.id} name={data.name as string} photo={data.photo as string}  key={data.name as string} onClick={()=>setOpenSearch(false)}/>)
+          }
+        </div>
       </div >
       <div className=' relative flex items-center gap-2 cursor-pointer font-medium text-gray-900 ' onClick={()=>setOpenCart(true)}>
         <BsCartCheck size={20} />

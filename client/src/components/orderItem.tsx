@@ -3,7 +3,7 @@ import {MdOutlineClose} from 'react-icons/md'
 import QuantityItem from "./quantityItem";
 import { useMutation } from "@apollo/client";
 import { DELETEORDER } from "../graphql/mutation";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { setOrder } from "../redux/orderSlice";
 
 interface OrderItemProps {
