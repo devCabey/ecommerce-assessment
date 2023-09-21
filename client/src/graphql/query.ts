@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const GET_ALL_PRODUCTS = gql`
   query GetProducts($filter: String!) {
-    products(filter: $filter) {
+    getProducts(filter: $filter) {
       id
       name
       description
@@ -14,7 +14,7 @@ export const GET_ALL_PRODUCTS = gql`
 
 export const GET_PRODUCT = gql`
   query GetProduct($id: String!) {
-    product(id: $id) {
+    getProduct(id: $id) {
       id
       name
       description
@@ -26,7 +26,7 @@ export const GET_PRODUCT = gql`
 
 export const GET_ORDERS = gql`
   query GetOrders($populate: Boolean!) {
-    orders(populate: $populate) {
+    getOrders(populate: $populate) {
       product
       quantity
     }

@@ -9,15 +9,6 @@ export const CREATEORDER = gql`
   }
 `;
 
-export const UPDATEORDER = gql`
-  mutation UpdateOrder($input: UpdateOrderInput!) {
-    updateOrder(input: $input) {
-      product
-      quantity
-    }
-  }
-`;
-
 export const DELETEORDER = gql`
   mutation DeleteOrder($id: String!) {
     deleteOrder(id: $id) {

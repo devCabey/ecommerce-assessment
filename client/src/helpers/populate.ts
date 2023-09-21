@@ -1,9 +1,9 @@
-import { IOrder, IProduct } from '../types';
+import { ICart, IProduct } from '../types';
 
 export const populateOrder = async (
-  orders: IOrder[],
+  orders: ICart[],
   products: IProduct[]
-): Promise<IOrder[]> => {
+): Promise<ICart[]> => {
   const populatedData = orders.map((order) => {
     return {
       ...order,
