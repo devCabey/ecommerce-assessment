@@ -6,7 +6,7 @@
 2.  Change directory to engine folder using `cd engine`
 3.  Run `yarn install` to install all necessary dependencies
 4.  After successfully installing the dependencies run `yarn dev` to run the server
-5.  For easy setup .env file was not implemented hence server will be running on `http://localhost:5000`
+5.  For easy setup .env file was not implemented hence server will be running on `http://localhost:5000/graphql`
 
 <!-- To Run The Client -->
 
