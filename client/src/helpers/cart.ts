@@ -2,6 +2,7 @@ import { ICart, IProduct } from '../types';
 
 export const getTotalCartItems = async (order: ICart[]): Promise<number> => {
   let total = 0;
+  console.log(order);
   for (let i = 0; i < order.length; i++) {
     total += order[i].quantity;
   }

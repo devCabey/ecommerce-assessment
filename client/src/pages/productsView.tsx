@@ -19,7 +19,7 @@ const ProductsView: React.FC = () => {
 
   useEffect(() => {
     dispatch(updateProduct(data?.getProducts));
-  }, [data]);
+  }, [data, dispatch]);
   return (
     <div className='relative'>
       <div className='flex items-center justify-between px-10 bg-slate-100 sticky top-12 z-40'>

@@ -13,7 +13,6 @@ import { ICart, IProduct } from '../types';
 import { GET_ORDERS } from '../graphql/query';
 import { useQuery } from '@apollo/client';
 import { getTotalAmount } from '../helpers';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const CheckoutView: React.FC = () => {
   const [orderTotal, setOrderTotal] = useState<number>(0);
@@ -24,11 +23,9 @@ const CheckoutView: React.FC = () => {
     variables: { populate: true },
   });
 
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
     getTotalAmount(data?.getOrders || []).then((info) => setOrderTotal(info));
-  }, [data, dispatch, loading]);
+  }, [data]);
 
   return (
     <div className='relative w-full flex justify-between px-10'>

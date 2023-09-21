@@ -18,7 +18,7 @@ const HomeView: React.FC = () => {
 
   useEffect(() => {
     dispatch(updateProduct(data?.getProducts || []));
-  }, [data]);
+  }, [data,dispatch]);
   return (
     <>
       <div className='w-full h-[500px] relative'>

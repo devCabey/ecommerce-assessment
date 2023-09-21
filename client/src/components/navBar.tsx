@@ -3,22 +3,24 @@ import * as _ from 'lodash';
 import { BsCartCheck } from 'react-icons/bs';
 import { BiSearchAlt } from 'react-icons/bi';
 import { IoMdCloseCircle } from 'react-icons/io';
-import OrderItem from './orderItem';
 import { MdClose } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { ICart, IProduct } from '../types';
 import { getTotalAmount, getTotalCartItems, populateOrder } from '../helpers';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { GET_ALL_PRODUCTS } from '../graphql/query';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { currentCart } from '../redux/cartSlice';
 import SearchItem from './searchItem';
 import { currentProducts } from '../redux/productSlice';
+import OrderItem from './orderItem';
+import { CREATEORDER } from '../graphql/mutation';
 
 const Navbar: React.FC = () => {
   const [openCart, setOpenCart] = useState<boolean>(false);
   const [orderItems, setOrderItems] = useState<number>(0);
   const [orderTotal, setOrderTotal] = useState<number>(0);
+  const [populatedData, setPopulatedData] = useState<ICart[]>([]);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const [search, setSearch] = useState<IProduct[]>([]);
@@ -31,9 +33,25 @@ const Navbar: React.FC = () => {
   const orders = useAppSelector(currentCart);
   const dispatch = useAppDispatch();
 
+  const [createOrder] = useMutation(CREATEORDER, {
+    variables: { input: orders },
+  });
+
+  const handleCheckout = () => {
+    createOrder();
+    setOpenCart(true);
+  };
+
   useEffect(() => {
-    getTotalCartItems(orders || []).then((data) => setOrderItems(data));
-    getTotalAmount(orders || []).then((data) => setOrderTotal(data));
+    populateOrder(orders, selectedProducts).then((data) =>
+      setPopulatedData(data)
+    );
+    getTotalCartItems(populatedData).then((data) =>
+      setOrderItems(data)
+    );
+    getTotalAmount(populatedData).then((data) =>
+      setOrderTotal(data)
+    );
     setSearch(searchData?.getProducts);
   }, [dispatch, orders, searchData]);
 
@@ -109,7 +127,7 @@ const Navbar: React.FC = () => {
         </div>
 
         <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
-          {orders?.map((prod: ICart) => (
+          {populatedData?.map((prod: ICart) => (
             <OrderItem
               key={(prod.product as IProduct).name}
               id={(prod.product as IProduct).id}
@@ -126,7 +144,7 @@ const Navbar: React.FC = () => {
             <h3 className='text-xl font-bold'>Total</h3>
             <h3 className='text-lg font-mono'>${orderTotal}.00</h3>
           </div>
-          <span onClick={() => setOpenCart(false)}>
+          <span onClick={() => handleCheckout()}>
             <Link
               to='/checkout'
               className='h-10 border flex justify-center items-center cursor-pointer text-sm font-medium bg-lime-800 text-white rounded-xl mt-5'>

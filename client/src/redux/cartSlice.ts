@@ -17,25 +17,16 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<ICart>) => {
       if (state.cart.length > 0) {
-        const existingCart = state.cart.find(
+        const existingIndex = state.cart.findIndex(
           (data) => data.product === action.payload.product
         );
-        if (!existingCart) {
+        if (existingIndex < 0) {
           state.cart = [...state.cart, action.payload];
         } else {
-          const newCart = state.cart.map((data) => {
-            if (data.product === existingCart.product) {
-              return {
-                ...data,
-                quantity: data.quantity++,
-              };
-            }
-            return data;
-          });
-          state.cart = [...newCart];
+          state.cart[existingIndex].quantity++;
         }
       } else {
-        state.cart = [...state.cart, action.payload];
+        state.cart.push(action.payload);
       }
     },
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
