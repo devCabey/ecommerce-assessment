@@ -1,5 +1,6 @@
 import {
   createOrder,
+  deleteOrder,
   getOrders,
   getProduct,
   getProducts,
@@ -15,7 +16,7 @@ const resolvers = {
   Mutation: {
     createOrder: (_: any, { input }: any) => createOrder(input),
     updateOrder: (_: any, { input }: any) => updateOrder(input),
-    deleteOrder: (_: any, { id }: any) => updateOrder(id),
+    deleteOrder: (_: any, { id }: any) => deleteOrder(id),
   },
 };
 
