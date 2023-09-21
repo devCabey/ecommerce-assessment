@@ -42,6 +42,7 @@ const typeDefs = gql`
   type Mutation {
     createOrder(input: CreateOrderInput!): [Order]!
     updateOrder(input: UpdateOrderInput!): [Order]!
+    deleteOrder(id: String!): [Order]!
   }
 `;
 

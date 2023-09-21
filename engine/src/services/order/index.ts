@@ -79,3 +79,13 @@ export async function updateOrder(input: OrderInput): Promise<Order[]> {
     throw err;
   }
 }
+
+export async function deleteOrder(id: string): Promise<Order[]> {
+  try {
+    if (!id) throw new Error('Provide the product id');
+    const orders = orderData.filter((data) => data.product !== id);
+    return orders;
+  } catch (err) {
+    throw err;
+  }
+}
