@@ -84,12 +84,8 @@ export async function deleteOrder(id: string): Promise<Order[]> {
   try {
     if (!id) throw new Error('Provide the product id');
     const _orderIndex = orderData.findIndex((data) => data.product === id);
-    console.log(_orderIndex);
-    if (_orderIndex >= 0) {
-      orderData.splice(_orderIndex, 1);
-    } else {
-      throw new Error('Product not in your order basket');
-    }
+    if (_orderIndex < 0) throw new Error('Product not in your order basket');
+    orderData.splice(_orderIndex, 1);
     return orderData;
   } catch (err) {
     throw err;
