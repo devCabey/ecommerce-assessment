@@ -39,19 +39,15 @@ const Navbar: React.FC = () => {
 
   const handleCheckout = () => {
     createOrder();
-    setOpenCart(true);
+    setOpenCart(false);
   };
 
   useEffect(() => {
     populateOrder(orders, selectedProducts).then((data) =>
       setPopulatedData(data)
     );
-    getTotalCartItems(populatedData).then((data) =>
-      setOrderItems(data)
-    );
-    getTotalAmount(populatedData).then((data) =>
-      setOrderTotal(data)
-    );
+    getTotalCartItems(populatedData).then((data) => setOrderItems(data));
+    getTotalAmount(populatedData).then((data) => setOrderTotal(data));
     setSearch(searchData?.getProducts);
   }, [dispatch, orders, searchData]);
 
@@ -144,13 +140,17 @@ const Navbar: React.FC = () => {
             <h3 className='text-xl font-bold'>Total</h3>
             <h3 className='text-lg font-mono'>${orderTotal}.00</h3>
           </div>
-          <span onClick={() => handleCheckout()}>
-            <Link
-              to='/checkout'
-              className='h-10 border flex justify-center items-center cursor-pointer text-sm font-medium bg-lime-800 text-white rounded-xl mt-5'>
-              Checkout
-            </Link>
-          </span>
+          {orders.length === 0 ? (
+            <></>
+          ) : (
+            <span onClick={() => handleCheckout()}>
+              <Link
+                to='/checkout'
+                className='h-10 border flex justify-center items-center cursor-pointer text-sm font-medium bg-lime-800 text-white rounded-xl mt-5'>
+                Checkout
+              </Link>
+            </span>
+          )}
         </div>
       </div>
     </div>
