@@ -8,7 +8,7 @@ import { IProduct } from '../types'
 
 const HomeView: React.FC=() =>{
 
-  const {loading, error, data} = useQuery(GET_ALL_PRODUCTS,{variables:{filter:""}})
+  const {loading, error, data} = useQuery(GET_ALL_PRODUCTS,{variables:{filter:"All Products"}})
   return (
     <>
     <div className='w-full h-[500px] relative'>
