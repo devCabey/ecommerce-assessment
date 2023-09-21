@@ -35,13 +35,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    product(id: String!): Product
-    products(filter: String): [Product]!
-    orders(populate: Boolean!): [Order]!
+    getProduct(id: String!): Product
+    getProducts(filter: String): [Product]!
+    getOrders(populate: Boolean!): [Order]!
   }
   type Mutation {
-    createOrder(input: CreateOrderInput!): [Order]!
-    updateOrder(input: UpdateOrderInput!): [Order]!
+    createOrder(input: [CreateOrderInput]!): [Order]!
     deleteOrder(id: String!): [Order]!
   }
 `;
