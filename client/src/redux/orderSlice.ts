@@ -16,18 +16,14 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     updateQuantity: (state, action: PayloadAction<IOrder>) => {
-      const cartItem = state.orders.findIndex(
-        (data) => data.product === action.payload.product
-      );
-      console.log(state.orders);
-      if (cartItem >= 0) {
-        state.orders[cartItem].quantity++;
-      } else {
-        state.orders.push({
-          product: action.payload.product,
-          quantity: 1,
-        });
-      }
+      const updatedOrders = state.orders.map((order) => {
+        if (order.product === action.payload.product) {
+          return { ...order, quantity: order.quantity + 1 }; // Create a new order object
+        }
+        return order;
+      });
+
+      state.orders = updatedOrders;
     },
     setOrder: (state, action: PayloadAction<IOrder[]>) => {
       state.orders = action.payload;

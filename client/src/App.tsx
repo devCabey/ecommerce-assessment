@@ -19,21 +19,20 @@ function App() {
 	})
 	
   return (
-		<ApolloProvider client={client}>
-			<Provider store={store}>
-			<BrowserRouter>
-						<Layout>
-							<Routes>
-								<Route path='/' element={<HomeView/>} />
-								<Route path= 'products' element={<ProductsView />}/>
-								<Route path= 'products/:id' element={<ProductView  loader={productLoader}/>}/>
-								<Route path= 'checkout' element={<CheckoutView />}/>
-							</Routes>
-						</Layout>
-			</BrowserRouter>
-			</Provider>
-			
-		</ApolloProvider>
+		<Provider store={store}>
+			<ApolloProvider client={client}>
+				<BrowserRouter>
+							<Layout>
+								<Routes>
+									<Route path='/' element={<HomeView/>} />
+									<Route path= 'products' element={<ProductsView />}/>
+									<Route path= 'products/:id' element={<ProductView  loader={productLoader}/>}/>
+									<Route path= 'checkout' element={<CheckoutView />}/>
+								</Routes>
+							</Layout>
+				</BrowserRouter>
+			</ApolloProvider>
+		</Provider>
 		
   );
 }

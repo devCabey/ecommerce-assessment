@@ -17,3 +17,12 @@ export const UPDATEORDER = gql`
     }
   }
 `;
+
+export const DELETEORDER = gql`
+  mutation DeleteOrder($id: String!) {
+    deleteOrder(id: $id) {
+      product
+      quantity
+    }
+  }
+`;

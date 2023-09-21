@@ -1,7 +1,10 @@
 import React from "react"
 import {MdOutlineClose} from 'react-icons/md'
 import QuantityItem from "./quantityItem";
-import { removeFromCart } from "../helpers";
+import { useMutation } from "@apollo/client";
+import { DELETEORDER } from "../graphql/mutation";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setOrder } from "../redux/orderSlice";
 
 interface OrderItemProps {
   photo?:string
@@ -12,9 +15,16 @@ interface OrderItemProps {
 }
 
 const OrderItem: React.FC<OrderItemProps>=({id,photo,name,price,quantity}) =>{
+  const [deleteOrder,{data}] = useMutation(DELETEORDER,{variables:{id:id}})
+  const dispatch = useAppDispatch()
+
+ async function handleRemoveItem(){
+    await deleteOrder();
+    dispatch(setOrder(data?.orders))
+  }
   return (
     <div className="w-80 h-24 border border-gray-300 my-5 flex items-center relative rounded-md px-1">
-      <div className="absolute top-3 right-3 cursor-pointer" onClick={()=>removeFromCart(id,[])}><MdOutlineClose size={18}/></div>
+      <div className="absolute top-3 right-3 cursor-pointer" onClick={()=>handleRemoveItem()}><MdOutlineClose size={18}/></div>
       <img src={photo} alt="product" className="w-20 h-20" />
       <div className="flex-1 px-5 flex flex-col ">
         <div className="flex w-full">

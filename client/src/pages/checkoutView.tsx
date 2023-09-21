@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks'
 const CheckoutView: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
   const [active, setActive] = useState<string>("")
+  const [done,setDone] = useState<boolean>(false)
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
   const orders = useAppSelector((state)=>state.order.orders)
   const dispatch = useAppDispatch()
@@ -23,8 +24,12 @@ const CheckoutView: React.FC=() =>{
     getTotalAmount(orders || []).then(data=>setOrderTotal(data))
     dispatch(setOrder(data?.orders))
  },[data,dispatch,orders,loading])
+
+
+
   return (
     <div className='relative w-full flex justify-between px-10'>
+      <div className={`absolute top-0 bottom-0 right-0 left-0 z-40 bg-lime-900 opacity-90 ${done?"":"hidden"}`}></div>
       <Link  to='/products' className='absolute top-3 left-5 text-xs font-bold'>{" << Back to Products"}</Link>
      <div className='relative w-1/2 mt-10'>
       <h3 className='text-lg font-bold font-serif m-5'>Payment Details</h3>
@@ -56,8 +61,8 @@ const CheckoutView: React.FC=() =>{
           </div>
           <InputItem type='text' placeholder='Please Enter Your Address' name='Address'/>
         </div>
-        <div className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '>
-          <button className='text-sm font-bold text-[#d1ba49] ' type='submit'>Checkout</button>
+        <div className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '  onClick={()=>{setDone(true); setTimeout(()=>setDone(false),2000)}}>
+          <span className='text-sm font-bold text-[#d1ba49]' >Checkout</span>
         </div>
       </form>
      </div>

@@ -17,7 +17,7 @@ const InputItem: React.FC<InputItemProps>=({name,type, placeholder,value, onChan
       <label htmlFor={htmlFor} className='text-xs my-2 font-medium'>
        {name}
       </label>
-      <input type={type} placeholder={placeholder} value={value} onChange={onChange}  className={`border text-xs h-10 px-2 ${moreStyle}`} id={id} required />
+      <input type={type} placeholder={placeholder} value={value} onChange={onChange}  className={`border text-xs h-10 px-2 ${moreStyle}`} id={id} />
     </div>
   )
 }
