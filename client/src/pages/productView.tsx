@@ -1,9 +1,11 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { addToCart } from '../helpers';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_PRODUCT } from '../graphql/query';
+import { UPDATEORDER } from '../graphql/mutation';
+import { useAppDispatch } from '../redux/hooks';
+import { updateQuantity } from '../redux/orderSlice';
 type ProductLoader = (params: { id: string }) => Promise<any>;
 
 interface ProductViewProps {
@@ -14,8 +16,14 @@ const ProductView: React.FC<ProductViewProps> = ({ loader }) => {
   const { id } = useParams<{ id: string }>();
 
   const {loading, error, data} = useQuery(GET_PRODUCT,{variables:{id:id}})
+  const [updateOrder] = useMutation(UPDATEORDER,{ variables:{input:{product:id, quantity:1}}})
+  const dispatch = useAppDispatch()
 
-console.log(data)
+  const handleAddToOrder =(id:string)=>{
+    updateOrder()
+    dispatch(updateQuantity({product:id, quantity:1}))
+  }
+ 
 
   return (
   <>
@@ -42,7 +50,7 @@ console.log(data)
            <h1 className='text-xl font-semibold'>${data.product.price}.00</h1>
          </div>
          <div className='flex justify-center items-center'>
-           <span className='px-4 py-2 border cursor-pointer rounded-full hover:border-green-300 hover:text-green-300 border-black' onClick={()=>addToCart(id as string,[])}>Add to Cart</span>
+           <span className='px-4 py-2 border cursor-pointer rounded-full hover:border-green-300 hover:text-green-300 border-black' onClick={()=>handleAddToOrder(id as string)}>Add to Cart</span>
          </div>
        </div>
      </div> 

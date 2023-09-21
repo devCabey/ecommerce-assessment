@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 import { UPDATEORDER } from '../graphql/mutation'
 import {useAppDispatch} from '../redux/hooks'
-import { setOrder, updateQuantity } from '../redux/orderSlice'
-import { useDispatch } from 'react-redux'
+import {  updateQuantity } from '../redux/orderSlice'
 interface ProductItemProps {
   id:string,
   name?:string,
@@ -17,13 +16,12 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps>=({name,photo,id,description,price}) =>{
 
   // will use the data to update order in context
-  const [updateOrder,{data}] = useMutation(UPDATEORDER,{ variables:{input:{product:id, quantity:1}}})
-  const dispatch = useDispatch()
+  const [updateOrder] = useMutation(UPDATEORDER,{ variables:{input:{product:id, quantity:1}}})
+  const dispatch = useAppDispatch()
 
   const handleAddToOrder =(id:string)=>{
     updateOrder()
     dispatch(updateQuantity({product:id, quantity:1}))
-    
   }
  
 
