@@ -8,7 +8,8 @@ import { IOrder, IProduct } from '../types'
 import { getTotalAmount, getTotalCartItems} from '../helpers'
 import { useQuery } from '@apollo/client'
 import { GET_ORDERS } from '../graphql/query'
-import useOrderStore from '../zustand/orderStore'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { setOrder } from '../redux/orderSlice'
 
 
 const Navbar: React.FC=() =>{
@@ -18,16 +19,16 @@ const Navbar: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
 
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
-  const {orders, setOrders} = useOrderStore()
+  const orders = useAppSelector((state)=>state.orderSlice.orders)
+  const dispatch = useAppDispatch()
 
 
   useEffect(()=>{
      getTotalCartItems(orders|| []).then((data)=>setOrderItems(data))
      getTotalAmount(orders|| []).then(data=>setOrderTotal(data))
-     setOrders(data?.orders)
-
-  },[data, orders, setOrders])
-  
+     dispatch(setOrder(data?.orders))
+  },[data,dispatch,orders])
+   
   return (
     <div className='w-full h-14 bg-white flex justify-between items-center px-20 gap-5 sticky top-0 z-50'>
       <Link to='/' >

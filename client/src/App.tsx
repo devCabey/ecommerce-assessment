@@ -8,6 +8,8 @@ import ProductView  from './pages/productView';
 import CheckoutView from './pages/checkoutView';
 import Layout from './layout/layout';
 import { productLoader } from './helpers';
+import {Provider} from 'react-redux'
+import store from './redux/store'
 
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
 	
   return (
 		<ApolloProvider client={client}>
+			<Provider store={store}>
 			<BrowserRouter>
 						<Layout>
 							<Routes>
@@ -28,6 +31,8 @@ function App() {
 							</Routes>
 						</Layout>
 			</BrowserRouter>
+			</Provider>
+			
 		</ApolloProvider>
 		
   );

@@ -8,18 +8,21 @@ import { IOrder, IProduct } from '../types'
 import { GET_ORDERS } from '../graphql/query'
 import { useQuery } from '@apollo/client'
 import { getTotalAmount } from '../helpers'
-import useOrderStore from '../zustand/orderStore'
+import { setOrder } from '../redux/orderSlice'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+
 
 const CheckoutView: React.FC=() =>{
   const [orderTotal, setOrderTotal] = useState<number>(0)
   const [active, setActive] = useState<string>("")
   const {loading, error, data} = useQuery(GET_ORDERS,{variables:{populate:true}})
-  const {orders, setOrders} = useOrderStore()
+  const orders = useAppSelector((state)=>state.orderSlice.orders)
+  const dispatch = useAppDispatch()
 
   useEffect(()=>{
     getTotalAmount(orders || []).then(data=>setOrderTotal(data))
-    setOrders(data?.orders)
- },[data, orders, setOrders])
+    dispatch(setOrder(data?.orders))
+ },[data,dispatch,orders,loading])
   return (
     <div className='relative w-full flex justify-between px-10'>
       <Link  to='/products' className='absolute top-3 left-5 text-xs font-bold'>{" << Back to Products"}</Link>
