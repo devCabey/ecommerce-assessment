@@ -49,7 +49,9 @@ export async function getProducts(filter: string): Promise<Product[]> {
   try {
     if (filter === '') return [];
     const products = productData.filter((prod) =>
-      prod.name.includes(filter === 'All Products' ? '' : filter)
+      prod.name
+        .toLocaleLowerCase()
+        .includes(filter.toLocaleLowerCase() === 'all products' ? '' : filter)
     );
     return products;
   } catch (err) {
