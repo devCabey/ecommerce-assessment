@@ -14,8 +14,6 @@ import { IOrder, IProduct } from '../types';
 import { GET_ORDERS } from '../graphql/query';
 import { useQuery } from '@apollo/client';
 import { getTotalAmount } from '../helpers';
-import { setOrder } from '../redux/orderSlice';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 const CheckoutView: React.FC = () => {
   const [orderTotal, setOrderTotal] = useState<number>(0);
@@ -24,13 +22,10 @@ const CheckoutView: React.FC = () => {
   const { loading, error, data } = useQuery(GET_ORDERS, {
     variables: { populate: true },
   });
-  const orders = useAppSelector((state) => state.order.orders);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getTotalAmount(orders || []).then((data) => setOrderTotal(data));
-    dispatch(setOrder(data?.orders));
-  }, [data, dispatch, orders, loading]);
+    getTotalAmount(data?.orders || []).then((data) => setOrderTotal(data));
+  }, [data]);
 
   return (
     <div className='relative w-full flex justify-between px-10'>
@@ -160,7 +155,7 @@ const CheckoutView: React.FC = () => {
             <div>Error...</div>
           ) : data ? (
             <div>
-              {orders?.map((prod: IOrder) => (
+              {data?.orders?.map((prod: IOrder) => (
                 <OrderItem
                   key={(prod.product as IProduct).name}
                   id={(prod.product as IProduct).id}
