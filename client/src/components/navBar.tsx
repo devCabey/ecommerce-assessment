@@ -10,8 +10,7 @@ import { IOrder, IProduct } from '../types';
 import { getTotalAmount, getTotalCartItems } from '../helpers';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import { GET_ALL_PRODUCTS, GET_ORDERS } from '../graphql/query';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setOrder } from '../redux/orderSlice';
+
 import SearchItem from './searchItem';
 
 const Navbar: React.FC = () => {
@@ -29,15 +28,11 @@ const Navbar: React.FC = () => {
     variables: { filter: searchText },
   });
 
-  const orders = useAppSelector((state) => state.order.orders);
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
-    getTotalCartItems(orders || []).then((data) => setOrderItems(data));
-    getTotalAmount(orders || []).then((data) => setOrderTotal(data));
-    dispatch(setOrder(data?.orders));
+    getTotalCartItems(data?.orders || []).then((data) => setOrderItems(data));
+    getTotalAmount(data?.orders || []).then((data) => setOrderTotal(data));
     setSearch(searchData?.products);
-  }, [data, dispatch, orders, searchData]);
+  }, [data, searchData]);
 
   const deBounceSearch = () => {
     const debouncer = _.debounce(() => {
@@ -118,7 +113,7 @@ const Navbar: React.FC = () => {
           <div>Error...</div>
         ) : data ? (
           <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
-            {orders?.map((prod: IOrder) => (
+            {data?.orders.map((prod: IOrder) => (
               <OrderItem
                 key={(prod.product as IProduct).name}
                 id={(prod.product as IProduct).id}
@@ -138,7 +133,7 @@ const Navbar: React.FC = () => {
             <h3 className='text-xl font-bold'>Total</h3>
             <h3 className='text-lg font-mono'>${orderTotal}.00</h3>
           </div>
-          {orders.length > 0 ? (
+          {data?.orders.length > 0 ? (
             <span onClick={() => setOpenCart(false)}>
               <Link
                 to='/checkout'

@@ -4,6 +4,7 @@ import {
   getOrders,
   getProduct,
   getProducts,
+  resetOrder,
   updateOrder,
 } from '../services';
 
@@ -16,6 +17,7 @@ const resolvers = {
   Mutation: {
     createOrder: (_: any, { input }: any) => createOrder(input),
     updateOrder: (_: any, { input }: any) => updateOrder(input),
+    resetOrder: (_: any, { input }: any) => resetOrder(),
     deleteOrder: (_: any, { id }: any) => deleteOrder(id),
   },
 };

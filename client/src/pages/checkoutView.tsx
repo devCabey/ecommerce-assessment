@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import PaymentItem from '../components/paymentItem';
 import {
   FaAmazonPay,
@@ -12,25 +13,55 @@ import OrderItem from '../components/orderItem';
 import { Link } from 'react-router-dom';
 import { IOrder, IProduct } from '../types';
 import { GET_ORDERS } from '../graphql/query';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { getTotalAmount } from '../helpers';
-import { setOrder } from '../redux/orderSlice';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { RESETORDER } from '../graphql/mutation';
 
 const CheckoutView: React.FC = () => {
   const [orderTotal, setOrderTotal] = useState<number>(0);
   const [active, setActive] = useState<string>('');
   const [done, setDone] = useState<boolean>(false);
+
+  const resetData = {
+    accname: '',
+    accnum: '',
+    ccv: '',
+    expireDate: '',
+    fullname: '',
+    telephone: '',
+    email: '',
+    address: '',
+  };
+
   const { loading, error, data } = useQuery(GET_ORDERS, {
     variables: { populate: true },
   });
-  const orders = useAppSelector((state) => state.order.orders);
-  const dispatch = useAppDispatch();
+
+  const [resetOrder] = useMutation(RESETORDER, {
+    refetchQueries: [{ query: GET_ORDERS }],
+  });
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
-    getTotalAmount(orders || []).then((data) => setOrderTotal(data));
-    dispatch(setOrder(data?.orders));
-  }, [data, dispatch, orders, loading]);
+    getTotalAmount(data?.orders || []).then((data) => setOrderTotal(data));
+  }, [data]);
+
+  const onSubmit = async () => {
+    if (active.length > 0) {
+      setDone(true);
+      setTimeout(() => setDone(false), 2000);
+      reset(resetData);
+      resetOrder();
+    } else {
+      setActive('error');
+    }
+  };
 
   return (
     <div className='relative w-full flex justify-between px-10'>
@@ -49,10 +80,19 @@ const CheckoutView: React.FC = () => {
       </Link>
       <div className='relative w-1/2 mt-10'>
         <h3 className='text-lg font-bold font-serif m-5'>Payment Details</h3>
-        <form className='flex flex-col items-center justify-center'>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='flex flex-col items-center justify-center'>
           <h3 className='text-sm font-bold  px-3 py-1 shadow-md rounded text-[#d1ba49] '>
             Payment Method
           </h3>
+          {active === 'error' ? (
+            <p className='text-sm text-red-500 mt-2 '>
+              please select one payment method
+            </p>
+          ) : (
+            ''
+          )}
           <div className='flex items-center justify-between gap-5 my-3 p-5 border-b rounded'>
             <PaymentItem
               Icon={FaAmazonPay}
@@ -87,25 +127,43 @@ const CheckoutView: React.FC = () => {
             <InputItem
               type='text'
               placeholder='Please Enter Your Account Name'
-              name='Account Name'
+              label='Account Name'
+              name='accname'
+              error={errors.accname}
+              other={register('accname', {
+                required: 'account name is required',
+              })}
             />
             <InputItem
               type='text'
               placeholder='Please Enter Account Number'
-              name='Account Number'
+              label='Account Number'
+              name='accnum'
+              error={errors.accnum}
+              other={register('accnum', {
+                required: 'account number is required',
+              })}
             />
             <div className='flex items-center justify-between gap-5'>
               <InputItem
                 type='text'
                 placeholder='Please Enter CCV'
-                name='CCV'
+                name='ccv'
+                label='CCV'
                 moreStyle=''
+                error={errors.ccv}
+                other={register('ccv', { required: 'cvv is required' })}
               />
               <InputItem
                 type='text'
                 placeholder='09/24'
-                name='Expire Date'
+                label='Expire Date'
+                name='expireDate'
                 moreStyle=''
+                error={errors.expireDate}
+                other={register('expireDate', {
+                  required: 'expire date is required',
+                })}
               />
             </div>
           </div>
@@ -117,36 +175,55 @@ const CheckoutView: React.FC = () => {
             <InputItem
               type='text'
               placeholder='Please Enter Your Fullname'
-              name='Fullname'
+              label='Fullname'
+              name='fullname'
+              error={errors.fullname}
+              other={register('fullname', {
+                required: 'fullname is required',
+              })}
             />
             <div className='flex items-center justify-between gap-5'>
               <InputItem
                 type='text'
                 placeholder='Please Enter Your Phone'
-                name='Telephone'
+                label='Telephone'
+                name='telephone'
                 moreStyle=''
+                error={errors.telephone}
+                other={register('telephone', {
+                  required: 'telephone is required',
+                })}
               />
               <InputItem
                 type='text'
                 placeholder='Please Enter Your Email'
-                name='Email'
+                label='Email'
+                name='email'
                 moreStyle=''
+                error={errors.email}
+                other={register('email', { required: 'email is required' })}
               />
             </div>
             <InputItem
               type='text'
               placeholder='Please Enter Your Address'
-              name='Address'
+              label='Address'
+              name='address'
+              error={errors.address}
+              other={register('address', {
+                required: 'address name is required',
+              })}
             />
           </div>
-          <div
-            className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '
-            onClick={() => {
-              setDone(true);
-              setTimeout(() => setDone(false), 2000);
-            }}>
-            <span className='text-sm font-bold text-[#d1ba49]'>Checkout</span>
-          </div>
+          {data?.orders.length > 0 ? (
+            <button
+              type='submit'
+              className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '>
+              <span className='text-sm font-bold text-[#d1ba49]'>Checkout</span>
+            </button>
+          ) : (
+            <div className='text-sm my-5 text-red-500'>NO ITEM TO CHECKOUT</div>
+          )}
         </form>
       </div>
       <div className=' relative w-1/2  px-10 mt-10'>
@@ -160,7 +237,7 @@ const CheckoutView: React.FC = () => {
             <div>Error...</div>
           ) : data ? (
             <div>
-              {orders?.map((prod: IOrder) => (
+              {data?.orders?.map((prod: IOrder) => (
                 <OrderItem
                   key={(prod.product as IProduct).name}
                   id={(prod.product as IProduct).id}

@@ -26,3 +26,12 @@ export const DELETEORDER = gql`
     }
   }
 `;
+
+export const RESETORDER = gql`
+  mutation ResetOrder {
+    resetOrder {
+      product
+      quantity
+    }
+  }
+`;
