@@ -80,6 +80,15 @@ export async function updateOrder(input: OrderInput): Promise<Order[]> {
   }
 }
 
+export async function resetOrder(): Promise<Order[]> {
+  try {
+    orderData.splice(0);
+    return orderData;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function deleteOrder(id: string): Promise<Order[]> {
   try {
     if (!id) throw new Error('Provide the product id');
