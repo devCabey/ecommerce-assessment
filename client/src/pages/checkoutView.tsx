@@ -134,14 +134,18 @@ const CheckoutView: React.FC = () => {
               name='Address'
             />
           </div>
-          <div
-            className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '
-            onClick={() => {
-              setDone(true);
-              setTimeout(() => setDone(false), 2000);
-            }}>
-            <span className='text-sm font-bold text-[#d1ba49]'>Checkout</span>
-          </div>
+          {data?.orders.length > 0 ? (
+            <div
+              className='w-5/6 border h-10 my-10 flex justify-center items-center cursor-pointer shadow-md shadow-gray-500 rounded hover:bg-gray-200 '
+              onClick={() => {
+                setDone(true);
+                setTimeout(() => setDone(false), 2000);
+              }}>
+              <span className='text-sm font-bold text-[#d1ba49]'>Checkout</span>
+            </div>
+          ) : (
+            <div className='text-sm my-5 text-red-500'>NO ITEM TO CHECKOUT</div>
+          )}
         </form>
       </div>
       <div className=' relative w-1/2  px-10 mt-10'>
