@@ -9,6 +9,9 @@ interface InputItemProps {
   htmlFor?: string;
   moreStyle?: string;
   name?: string;
+  other?: any;
+  error?: any;
+  label: string;
 }
 
 const InputItem: React.FC<InputItemProps> = ({
@@ -20,20 +23,30 @@ const InputItem: React.FC<InputItemProps> = ({
   id,
   htmlFor,
   moreStyle,
+  other,
+  error,
+  label,
 }) => {
   return (
     <div className={`flex flex-col w-full my-2`}>
       <label htmlFor={htmlFor} className='text-xs my-2 font-medium'>
-        {name}
+        {label}
       </label>
       <input
         type={type}
         placeholder={placeholder}
         value={value}
+        name={name}
         onChange={onChange}
         className={`border text-xs h-10 px-2 ${moreStyle}`}
         id={id}
+        {...other}
       />
+      {error ? (
+        <p className='text-sm text-red-500 mt-2 '>{error.message}</p>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
