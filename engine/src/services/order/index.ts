@@ -1,16 +1,7 @@
 import { Order, OrderInput, Product } from '../../types';
 import { productData } from '../product';
 
-export const orderData = [
-  {
-    product: '2',
-    quantity: 5,
-  },
-  {
-    product: '1',
-    quantity: 2,
-  },
-];
+export const orderData: Order[] = [];
 
 export async function getOrders(populate: boolean): Promise<Order[]> {
   try {
