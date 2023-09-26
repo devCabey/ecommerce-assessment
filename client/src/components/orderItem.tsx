@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MdOutlineClose } from 'react-icons/md';
 import QuantityItem from './quantityItem';
 import { useMutation } from '@apollo/client';
 import { DELETEORDER } from '../graphql/mutation';
 import { GET_ORDERS } from '../graphql/query';
+import { useAppDispatch } from '../redux/hooks';
+import { setOrders } from '../redux/orderSlice';
 
 interface OrderItemProps {
   photo?: string;
@@ -20,10 +22,16 @@ const OrderItem: React.FC<OrderItemProps> = ({
   price,
   quantity,
 }) => {
-  const [deleteOrder] = useMutation(DELETEORDER, {
+  const [deleteOrder, { data }] = useMutation(DELETEORDER, {
     variables: { id: id },
-    refetchQueries: [{ query: GET_ORDERS }],
+    refetchQueries: [{ query: GET_ORDERS, variables: { populate: true } }],
   });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (data?.deleteOrder) dispatch(setOrders(data?.deleteOrder));
+  }, [dispatch, data]);
 
   async function handleRemoveItem() {
     await deleteOrder();
