@@ -51,7 +51,11 @@ export async function getProducts(filter: string): Promise<Product[]> {
     const products = productData.filter((prod) =>
       prod.name
         .toLocaleLowerCase()
-        .includes(filter.toLocaleLowerCase() === 'all products' ? '' : filter)
+        .includes(
+          filter.toLocaleLowerCase() === 'all products'
+            ? ''
+            : filter.toLocaleLowerCase()
+        )
     );
     return products;
   } catch (err) {
