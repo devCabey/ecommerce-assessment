@@ -21,17 +21,17 @@ const ProductItem: React.FC<ProductItemProps> = ({
   description,
   price,
 }) => {
-  // will use the data to update order in context
   const [updateOrder, { data }] = useMutation(UPDATEORDER, {
     variables: { input: { product: id, quantity: 1 } },
     refetchQueries: [{ query: GET_ORDERS, variables: { populate: true } }],
   });
 
   const dispatch = useAppDispatch();
-  console.log(data);
+
   useEffect(() => {
     if (data?.updateOrder) dispatch(setOrders(data?.updateOrder));
   }, [dispatch, data]);
+
   return (
     <div className='w-60 m-5'>
       <Link
