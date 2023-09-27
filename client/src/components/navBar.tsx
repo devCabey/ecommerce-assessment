@@ -8,12 +8,16 @@ import { MdClose } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { IOrder, IProduct } from '../types';
 import { getTotalAmount, getTotalCartItems } from '../helpers';
-import { useQuery, useLazyQuery } from '@apollo/client';
-import { GET_ALL_PRODUCTS, GET_ORDERS } from '../graphql/query';
+import { useLazyQuery } from '@apollo/client';
+import { GET_ALL_PRODUCTS } from '../graphql/query';
 
 import SearchItem from './searchItem';
 
-const Navbar: React.FC = () => {
+interface NavbarProp {
+  orders: IOrder[];
+}
+
+const Navbar: React.FC<NavbarProp> = ({ orders }) => {
   const [openCart, setOpenCart] = useState<boolean>(false);
   const [orderItems, setOrderItems] = useState<number>(0);
   const [orderTotal, setOrderTotal] = useState<number>(0);
@@ -21,18 +25,15 @@ const Navbar: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
   const [search, setSearch] = useState<IProduct[]>([]);
 
-  const { loading, error, data } = useQuery(GET_ORDERS, {
-    variables: { populate: true },
-  });
   const [products, { data: searchData }] = useLazyQuery(GET_ALL_PRODUCTS, {
     variables: { filter: searchText },
   });
 
   useEffect(() => {
-    getTotalCartItems(data?.orders || []).then((data) => setOrderItems(data));
-    getTotalAmount(data?.orders || []).then((data) => setOrderTotal(data));
+    getTotalCartItems(orders || []).then((data) => setOrderItems(data));
+    getTotalAmount(orders || []).then((data) => setOrderTotal(data));
     setSearch(searchData?.products);
-  }, [data, searchData]);
+  }, [searchData, orders]);
 
   const deBounceSearch = () => {
     const debouncer = _.debounce(() => {
@@ -105,15 +106,9 @@ const Navbar: React.FC = () => {
           onClick={() => setOpenCart(false)}>
           <MdClose size={20} />
         </div>
-        {loading ? (
-          <div className='w-11/12 h-64 flex justify-center items-center'>
-            Loading ...
-          </div>
-        ) : error ? (
-          <div>Error...</div>
-        ) : data ? (
+        {orders.length > 0 ? (
           <div className=' h-[650px] overflow-scroll overflow-y-scroll mt-10 flex flex-col items-center'>
-            {data?.orders.map((prod: IOrder) => (
+            {orders?.map((prod: IOrder) => (
               <OrderItem
                 key={(prod.product as IProduct).name}
                 id={(prod.product as IProduct).id}
@@ -125,7 +120,9 @@ const Navbar: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div>Empty ...</div>
+          <div className='my-10 flex justify-center items-center'>
+            Empty ...
+          </div>
         )}
 
         <div className='h-[150px] border shadow-md rounded-t-md p-5'>
@@ -133,7 +130,7 @@ const Navbar: React.FC = () => {
             <h3 className='text-xl font-bold'>Total</h3>
             <h3 className='text-lg font-mono'>${orderTotal}.00</h3>
           </div>
-          {data?.orders.length > 0 ? (
+          {orders.length > 0 ? (
             <span onClick={() => setOpenCart(false)}>
               <Link
                 to='/checkout'

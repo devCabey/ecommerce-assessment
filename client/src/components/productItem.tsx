@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { UPDATEORDER } from '../graphql/mutation';
+import { GET_ORDERS } from '../graphql/query';
+import { useAppDispatch } from '../redux/hooks';
+import { setOrders } from '../redux/orderSlice';
 
 interface ProductItemProps {
   id: string;
@@ -18,10 +21,16 @@ const ProductItem: React.FC<ProductItemProps> = ({
   description,
   price,
 }) => {
-  // will use the data to update order in context
-  const [updateOrder] = useMutation(UPDATEORDER, {
+  const [updateOrder, { data }] = useMutation(UPDATEORDER, {
     variables: { input: { product: id, quantity: 1 } },
+    refetchQueries: [{ query: GET_ORDERS, variables: { populate: true } }],
   });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (data?.updateOrder) dispatch(setOrders(data?.updateOrder));
+  }, [dispatch, data]);
 
   return (
     <div className='w-60 m-5'>

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ORDERS, GET_PRODUCT } from '../graphql/query';
 import { UPDATEORDER } from '../graphql/mutation';
+import { useAppDispatch } from '../redux/hooks';
+import { setOrders } from '../redux/orderSlice';
 
 type ProductLoader = (params: { id: string }) => Promise<any>;
 
@@ -18,10 +20,16 @@ const ProductView: React.FC<ProductViewProps> = ({ loader }) => {
     variables: { id: id },
   });
 
-  const [updateOrder] = useMutation(UPDATEORDER, {
+  const [updateOrder, { data: orderData }] = useMutation(UPDATEORDER, {
     variables: { input: { product: id, quantity: 1 } },
-    refetchQueries: [{ query: GET_ORDERS }],
+    refetchQueries: [{ query: GET_ORDERS, variables: { populate: true } }],
   });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (orderData?.updateOrder) dispatch(setOrders(orderData?.updateOrder));
+  }, [dispatch, orderData]);
 
   return (
     <>
