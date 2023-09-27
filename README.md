@@ -21,7 +21,3 @@
 ## To Run Admin
 
 NB.Admin is still under development and not available at the moment
-
-## Difficulties
-
-Still working on getting live update after adding to cart, removing cart item or simulation checkout instead of manualling refreshing to see updates
